@@ -111,6 +111,21 @@ public class EmployeeDao {
 
     }
 
+    // check whether the entered username is unique
+    public boolean isUsernameUnique(String username) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            // Check if any employee with the given username exists
+            Query query = session.createQuery("SELECT COUNT(*) FROM Employee WHERE empUserName = :username");
+            query.setParameter("username", username);
+            Long count = (Long) query.uniqueResult();
+            return count ==0;
+        } finally {
+            session.close();
+        }
+    }
+
+
 
 //    //This method will help us delete all employees from the table
 //    public String deleteAllEmployees(Employee employee){
@@ -172,6 +187,8 @@ public class EmployeeDao {
         };
         return false;
     }
+
+
 
 
 }

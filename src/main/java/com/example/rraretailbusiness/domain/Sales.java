@@ -17,7 +17,7 @@ public class Sales {
     private LocalDate salesDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customerTrack",referencedColumnName = "")
+    @JoinColumn(name = "customerTrack")
     private Customer customerId;
 
     @OneToMany(

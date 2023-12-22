@@ -57,6 +57,13 @@ public class Employee {
         this.empDOB = empDOB;
     }
 
+
+    //Parameterized constructor to login  on the user interface
+
+    public Employee(String empUserName, String empPassword) {
+        this.empUserName = empUserName;
+        this.empPassword = empPassword;
+    }
     /*The getters and setters to make changes on the variables of the class,
     /The employee id does not have a setter to make sure that no one can change the Id/primary key once it's set*/
 
@@ -112,4 +119,15 @@ public class Employee {
         return empDOB;
     }
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "empFirstName='" + empFirstName + '\'' +
+                ", empLastName='" + empLastName + '\'' +
+                ", empUserName='" + empUserName + '\'' +
+                ", empPassword='" + empPassword + '\'' +
+                ", empMail='" + empMail + '\'' +
+                ", empDOB=" + empDOB +
+                '}';
+    }
 }
