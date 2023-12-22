@@ -39,6 +39,10 @@
                             <label for="address" class="form-label">Address</label>
                             <input type="text" class="form-control" name="customerAddress" id="address">
                         </div>
+                        <div class="mb-3">
+                            <label for="tin" class="form-label">Tin</label>
+                            <input type="text" class="form-control" name="customerTin" id="tin">
+                        </div>
 
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
