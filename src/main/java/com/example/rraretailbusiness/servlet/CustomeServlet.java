@@ -1,6 +1,7 @@
 package com.example.rraretailbusiness.servlet;
 
 import com.example.rraretailbusiness.dao.CustomerDao;
+import com.example.rraretailbusiness.dao.EmployeeDao;
 import com.example.rraretailbusiness.domain.Customer;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/registerCustomer")
 public class CustomeServlet extends HttpServlet {
@@ -53,13 +55,20 @@ public class CustomeServlet extends HttpServlet {
         String mail = request.getParameter("customerAddress");
         String address = request.getParameter("customerAddress");
         String tin = request.getParameter("customerTin");
+
+        // check if the tin is exactly 9 digits and tin is unique
+
+        if(!tin.matches("^1\\d{8}$") || !isTinUnique(tin)){
+            sendErrorMessage(response, "The tin or phone number is invalid");
+            return;
+        }
         try {
             CustomerDao customerDao = new CustomerDao();
             Customer customer = new Customer(name, mobileNumber, mail, address, tin);
 
 //          employeeDao.saveEmployee(employee);
             customerDao.saveCustomer(customer);
-            response.sendRedirect("list");
+            sendSuccessMessage(response, "customer registered successfully");
 
 
         } catch (Exception ex) {
@@ -113,5 +122,23 @@ public class CustomeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
+    }
+
+    private void sendErrorMessage(HttpServletResponse resp, String message) throws IOException {
+        resp.setContentType("text/html");
+        PrintWriter pw = resp.getWriter();
+        pw.println("<script>alert('" + message + "');</script>");
+    }
+
+    private void sendSuccessMessage(HttpServletResponse resp, String message) throws IOException {
+        resp.setContentType("text/html");
+        PrintWriter pw = resp.getWriter();
+        pw.println("<script>alert('" + message + "');</script>");
+    }
+    private boolean isTinUnique(String tin){
+
+        //check whether the tin already exist in the database
+        CustomerDao customerDao = new CustomerDao();
+        return customerDao.isTinUnique(tin);
     }
 }

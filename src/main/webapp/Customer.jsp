@@ -23,29 +23,29 @@
                     <form method="POST" action="registerCustomer">
                         <div class="mb-3">
                             <label for="firstname" class="form-label">Name</label>
-                            <input type="text" name="customerName" class="form-control" id="firstname">
+                            <input type="text" name="customerName" class="form-control" id="firstname", required>
                         </div>
                         <div class="mb-3">
                             <label for="phoneNumber" class="form-label">Mobile</label>
-                            <input type="tel" class="form-control" name="customerTel" id="phoneNumber">
+                            <input type="tel" class="form-control" name="customerTel" id="phoneNumber", required>
                         </div>
 
                         <div class="mb-3">
                             <label for="mail" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="customerMail" id="mail">
+                            <input type="email" class="form-control" name="customerMail" id="mail", required>
                         </div>
 
                         <div class="mb-3">
                             <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" name="customerAddress" id="address">
+                            <input type="text" class="form-control" name="customerAddress" id="address", required>
                         </div>
                         <div class="mb-3">
                             <label for="tin" class="form-label">Tin</label>
-                            <input type="text" class="form-control" name="customerTin" id="tin">
+                            <input type="text" class="form-control" name="customerTin" id="tin", PLACEHOLDER="Enter the tin or the phone number", required>
                         </div>
 
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1", required>
                             <label class="form-check-label" for="exampleCheck1">Check me out</label>
                         </div>
                         <button type="submit" class="btn btn-primary col-md-12">Register</button>

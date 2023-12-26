@@ -158,6 +158,19 @@ public class CustomerDao {
         };
         return false;
     }
+    //check whether the tin or phone number is unique
+    public boolean isTinUnique(String tin) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            // Check if any customer with the given tin exists
+            Query query = session.createQuery("SELECT COUNT(*) FROM Customer WHERE customerTin = :tin");
+            query.setParameter("tin", tin);
+            Long count = (Long) query.uniqueResult();
+            return count ==0;
+        } finally {
+            session.close();
+        }
+    }
 
 
 }
