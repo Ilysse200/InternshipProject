@@ -38,6 +38,17 @@ public class Item {
     public Item() {
     }
 
+    //Parameterized constructor without the itemCode which is the primary key
+
+
+    public Item(String itemName, String itemOrigin, String itemMeasure, Long itemUnit, String itemTaxType, LocalDate registeredDate) {
+        this.itemName = itemName;
+        this.itemOrigin = itemOrigin;
+        this.itemMeasure = itemMeasure;
+        this.itemUnit = itemUnit;
+        this.itemTaxType = itemTaxType;
+        this.registeredDate = registeredDate;
+    }
 
     //Parametirized constructor to enable the creation of an object
     public Item(Long itemCode, String itemName, String itemOrigin, String itemMeasure, Long itemUnit, String itemTaxType, LocalDate registeredDate) {

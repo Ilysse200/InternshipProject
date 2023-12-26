@@ -18,7 +18,6 @@ public class ItemFlow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "itemFlowIdentifier")
     private Long itemFlowId;
     private LocalDate itemFlowDate;
 
