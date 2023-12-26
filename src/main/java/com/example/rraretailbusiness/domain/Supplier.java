@@ -44,11 +44,19 @@ public class Supplier {
         this.supplierAddress = supplierAddress;
         this.supplierTin = supplierTin;
     }
+    
+    //Parameterized constructor without the primary key of the supplier
 
-
+    public Supplier(String supplierName, String supplierTel, String supplierEmail, String supplierAddress, String supplierTin) {
+        this.supplierName = supplierName;
+        this.supplierTel = supplierTel;
+        this.supplierEmail = supplierEmail;
+        this.supplierAddress = supplierAddress;
+        this.supplierTin = supplierTin;
+    }
 
     /*The getters and setters to make changes on the variables of the class,
-    /The supplier id does not have a setter to make sure that no one can change the Id/primary key once it's set*/
+        /The supplier id does not have a setter to make sure that no one can change the Id/primary key once it's set*/
     public void setSupplierName(String supplierName) {
         this.supplierName = supplierName;
     }

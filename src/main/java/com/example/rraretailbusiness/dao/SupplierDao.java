@@ -158,5 +158,17 @@ public class SupplierDao {
         };
         return false;
     }
+    public boolean isTinUnique(String tin) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            // Check if any customer with the given tin exists
+            Query query = session.createQuery("SELECT COUNT(*) FROM Supplier WHERE supplierTin = :tin");
+            query.setParameter("tin", tin);
+            Long count = (Long) query.uniqueResult();
+            return count ==0;
+        } finally {
+            session.close();
+        }
+    }
 
 }

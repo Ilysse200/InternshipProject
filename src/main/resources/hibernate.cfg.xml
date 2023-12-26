@@ -8,7 +8,7 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/retailbusiness</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">:@12ERgu#Oli</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
 
         <mapping class="com.example.rraretailbusiness.domain.Customer"></mapping>
