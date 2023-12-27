@@ -1,4 +1,10 @@
-<%--
+<%@ page import="com.example.rraretailbusiness.dao.ItemDao" %>
+<%@ page import="com.example.rraretailbusiness.domain.Item" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.rraretailbusiness.dao.PurchaseDao" %>
+<%@ page import="com.example.rraretailbusiness.domain.Purchase" %>
+<%@ page import="com.example.rraretailbusiness.dao.SalesDao" %>
+<%@ page import="com.example.rraretailbusiness.domain.Sales" %><%--
   Created by IntelliJ IDEA.
   User: 25078
   Date: 27/12/2023
@@ -18,37 +24,73 @@
     <div class="row">
         <div class="col-md-6 offset-md-3 mt-2">
             <div class="card">
-                <div class="card-header text-center fs-3">Customer Register</div>
+                <div class="card-header text-center fs-3">ItemFlow Record</div>
                 <div class="card-body">
                     <form method="POST" action="registerItemFlow">
                         <div class="mb-3">
-                            <label for="firstname" class="form-label">Name</label>
-                            <input type="text" name="customerName" class="form-control" id="firstname", required>
+                            <label for="date" class="form-label">itemFlowDate</label>
+                            <input type="date" name="itemFlowDate" class="form-control" id="date" required>
                         </div>
                         <div class="mb-3">
-                            <label for="phoneNumber" class="form-label">Mobile</label>
-                            <input type="tel" class="form-control" name="customerTel" id="phoneNumber", required>
+                            <label for="purchases" class="form-label">purchasesItemFlow</label>
+                            <select class="form-select" name="purchasesItemFlow" id="purchases" >
+                                <%!
+                                    private static final Object IN = "IN";
+                                    private static final Object OUT = "OUT";
+                                %><%
+                                    // Fetch purchases from the database using the DAO
+                                    PurchaseDao purchaseDao = new PurchaseDao();
+                                    List<Purchase> purchases = purchaseDao.displayAllPurchases();
+
+                                    // Iterate over the purchases and generate <option> elements
+                                    for (Purchase purchase : purchases) {
+                                %>
+                                <option value="<%= purchase.getPurchaseId() %>"><%= OUT %></option>
+                                <%
+                                    }
+                                %>
+
+                            </select>
                         </div>
 
                         <div class="mb-3">
-                            <label for="mail" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="customerMail" id="mail", required>
+                            <label for="ItemFlowsales" class="form-label">ItemFlowsales</label>
+                            <select class="form-select" name="ItemFlowsalesID" id="ItemFlowsales" >
+                                <%
+                                    // Fetch sales from the database using the DAO
+                                    SalesDao salesDao = new SalesDao();
+                                    List<Sales> sales = salesDao.displayAllSales();
+
+                                    // Iterate over the sales and generate <option> elements
+                                    for (Sales sales1 : sales) {
+                                %>
+                                <option value="<%= sales1.getSalesID() %>"><%= IN %></option>
+                                <%
+                                    }
+                                %>
+
+                            </select>
                         </div>
 
                         <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" name="customerAddress" id="address", required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tin" class="form-label">Tin</label>
-                            <input type="text" class="form-control" name="customerTin" id="tin", PLACEHOLDER="Enter the tin or the phone number", required>
-                        </div>
+                            <label for="items" class="form-label">itemList</label>
+                            <select class="form-select" name="itemList" id="items" required>
+                                <%
+                                    // Fetch items from the database using the DAO
+                                    ItemDao itemDao = new ItemDao();
+                                    List<Item> items = itemDao.displayAllEmployees();
 
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1", required>
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div>
+                                    // Iterate over the items and generate <option> elements
+                                    for (Item item : items) {
+                                %>
+                                <option value="<%= item.getItemCode() %>"><%= item.getItemName() %></option>
+                                <%
+                                    }
+                                %>
+
+                            </select>
                         <button type="submit" class="btn btn-primary col-md-12">Register</button>
+                        </div>
                     </form>
 
                 </div>

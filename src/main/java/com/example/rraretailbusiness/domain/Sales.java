@@ -50,6 +50,13 @@ public class Sales {
         this.salesExecuter = salesExecuter;
     }
 
+    public Sales(LocalDate salesDate, Customer customerId, List<Item> items, List<Employee> salesExecuter) {
+        this.salesDate = salesDate;
+        this.customerId = customerId;
+        this.items = items;
+        this.salesExecuter = salesExecuter;
+    }
+
     /*
         The following are getters and setters, they enable us to make changes in the fields of a class.
         All fields have associated getters and setters except the salesId which is to prevent any changes to be
