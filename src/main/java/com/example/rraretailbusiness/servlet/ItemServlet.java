@@ -22,7 +22,7 @@ public class ItemServlet extends HttpServlet {
         String itemMeasure = req.getParameter("itemMeasure");
         String itemUnit = req.getParameter("itemUnit");
         String taxType = req.getParameter("itemTaxType");
-        String regDate = req.getParameter("registeredDate");
+        LocalDate regDate = LocalDate.parse(req.getParameter("registeredDate"));
 
 
         //save the item to the database
