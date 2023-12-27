@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ItemFlowService {
     String saveItemFlow(ItemFlow itemFlow) ;
-    List<ItemFlowDao> displayAllItemFlows();
+    List<ItemFlow> displayAllItemFlows();
     boolean findItemFlowId(Long Id);
     boolean deleteItemFlow(Long Id);
     boolean UpdateItemFlow(ItemFlow itemFlow, Long Id);

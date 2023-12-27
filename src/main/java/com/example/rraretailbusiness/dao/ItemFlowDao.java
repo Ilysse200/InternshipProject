@@ -31,10 +31,10 @@ public class ItemFlowDao {
 
 
     //The method below will enable us to display all itemFlows records from its relative table
-    public List<ItemFlowDao> displayAllEmployees(){
+    public List<ItemFlow> displayAllEmployees(){
         try{
             Session session= HibernateUtil.getSessionFactory().openSession();
-            return session.createQuery("FROM ItemFlow ", ItemFlowDao.class).list();
+            return session.createQuery("FROM ItemFlow ", ItemFlow.class).list();
 
 
 

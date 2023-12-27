@@ -17,7 +17,7 @@ public class ItemFlowServiceImpl implements ItemFlowService{
     }
 
     @Override
-    public List<ItemFlowDao> displayAllItemFlows() {
+    public List<ItemFlow> displayAllItemFlows() {
         return dao.displayAllEmployees();
     }
 

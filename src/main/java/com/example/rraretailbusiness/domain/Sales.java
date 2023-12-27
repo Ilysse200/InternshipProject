@@ -16,12 +16,12 @@ public class Sales {
 
     private LocalDate salesDate;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customerTrack")
     private Customer customerId;
 
     @OneToMany(
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JoinColumn(name = "ItemCode")
@@ -29,7 +29,7 @@ public class Sales {
 
     @OneToMany
             (
-                    cascade = CascadeType.PERSIST,
+                    cascade = CascadeType.ALL,
                     orphanRemoval = true
             )
     @JoinColumn(name = "doneBy")

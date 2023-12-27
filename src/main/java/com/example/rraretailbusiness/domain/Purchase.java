@@ -25,7 +25,7 @@ public class Purchase {
 
 
     @OneToMany(
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JoinColumn(name = "supplierID")
@@ -33,14 +33,14 @@ public class Purchase {
 
 
     @OneToMany(
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JoinColumn(name = "itemCode")
     private  List<Item> items;
 
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doneBy", referencedColumnName = "employeeIdentifier")
     private Employee empPurchase;
 
