@@ -48,6 +48,14 @@ public class Purchase {
     public Purchase() {
     }
 
+    //parameterized constructor without the primary Key
+
+    public Purchase(LocalDate purchaseDate, List<Supplier> purchaseSupplier, List<Item> items, Employee empPurchase) {
+        this.purchaseDate = purchaseDate;
+        this.purchaseSupplier = purchaseSupplier;
+        this.items = items;
+        this.empPurchase = empPurchase;
+    }
 
     //Parameterised contructor that facilitates the construction of new objects
 
