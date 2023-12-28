@@ -19,6 +19,8 @@ public class ItemFlowServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+
+
         ItemDao itemDao = new ItemDao();
         SalesDao salesDao = new SalesDao();
         PurchaseDao purchaseDao = new PurchaseDao();
@@ -26,6 +28,12 @@ public class ItemFlowServlet extends HttpServlet {
 
 
         LocalDate flowDate = LocalDate.parse(req.getParameter("itemFlowDate"));
+
+        String flowDateParam = req.getParameter("itemFlowDate");
+        System.out.println("Received Date Parameter: " + flowDateParam);
+
+        LocalDate flowDates = LocalDate.parse(flowDateParam);
+        System.out.println("Parsed LocalDate: " + flowDate);
         List<Purchase> purchasesItemFlow = purchaseDao.displayAllPurchases();
         req.setAttribute("purchases", purchasesItemFlow);
 
@@ -44,23 +52,20 @@ public class ItemFlowServlet extends HttpServlet {
 
         // Assuming you want to handle either itemSales or purchaseItem, not both
         ItemFlow itemFlow = new ItemFlow();
+        itemFlow.setItemFlowDate(flowDate);
 
 
         if (!itemFlowsalesID.isEmpty()) {
             // Handle the case where there is at least one itemSales
             itemFlow.setItemFlowsalesID(itemFlowsalesID.get(0));
             itemFlow.setPurchasesItemFlow(null);
-            itemFlow.setItemFlowDate(flowDate);
             itemFlow.setItemList(item);
-            itemFlow.setItemFlowDate(flowDate);
             itemFlowDao.saveItemFlow(itemFlow);
         } else if (!purchasesItemFlow.isEmpty()) {
             // Handle the case where there is at least one purchaseItem
             itemFlow.setItemFlowsalesID(null);
             itemFlow.setPurchasesItemFlow(purchasesItemFlow.get(0));
-            itemFlow.setItemFlowDate(flowDate);
             itemFlow.setItemList(item);
-            itemFlow.setItemFlowDate(flowDate);
             itemFlowDao.saveItemFlow(itemFlow);
         }
 

@@ -4,7 +4,8 @@
 <%@ page import="com.example.rraretailbusiness.dao.PurchaseDao" %>
 <%@ page import="com.example.rraretailbusiness.domain.Purchase" %>
 <%@ page import="com.example.rraretailbusiness.dao.SalesDao" %>
-<%@ page import="com.example.rraretailbusiness.domain.Sales" %><%--
+<%@ page import="com.example.rraretailbusiness.domain.Sales" %>
+<%--
   Created by IntelliJ IDEA.
   User: 25078
   Date: 27/12/2023
