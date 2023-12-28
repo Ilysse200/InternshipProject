@@ -24,24 +24,17 @@ public class Purchase {
     private LocalDate purchaseDate;
 
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @JoinColumn(name = "supplierID")
+    @OneToMany
     private List<Supplier>purchaseSupplier;
 
 
     @OneToMany(
-            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JoinColumn(name = "itemCode")
     private  List<Item> items;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "doneBy", referencedColumnName = "employeeIdentifier")
+    @OneToOne
     private Employee empPurchase;
 
     //This is an empty constructor

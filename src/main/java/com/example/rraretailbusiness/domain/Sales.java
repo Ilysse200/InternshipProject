@@ -16,23 +16,16 @@ public class Sales {
 
     private LocalDate salesDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "customerTrack")
     private Customer customerId;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @JoinColumn(name = "ItemCode")
+    @OneToMany
+    @JoinColumn(name = "itemIdentifier")
     private List<Item> items;
 
     @OneToMany
-            (
-                    cascade = CascadeType.ALL,
-                    orphanRemoval = true
-            )
-    @JoinColumn(name = "doneBy")
+    @JoinColumn(name = "employeeIdentifier")
     private List<Employee> salesExecuter;
 
 

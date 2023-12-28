@@ -24,10 +24,11 @@
         <hr class="my-4">
 
         <!-- Example links to other pages -->
-        <a class="btn btn-primary btn-lg" href="/registerSupplier" role="button">Record Supplier</a>
-        <a class="btn btn-success btn-lg" href="/registerPurchase" role="button">Record Purchase</a>
-        <a class="btn btn-primary btn-lg" href="/registerItem" role="button">Record Item</a>
-        <a class="btn btn-primary btn-lg" href="/registerSales" role="button">Record Sales</a>
+        <a class="btn btn-primary btn-lg" href="Supplier.jsp" role="button">Record Supplier</a>
+        <a class="btn btn-primary btn-lg" href="Customer.jsp" role="button">Record Customer</a>
+        <a class="btn btn-success btn-lg" href="purchase.jsp" role="button">Record Purchase</a>
+        <a class="btn btn-primary btn-lg" href="item.jsp" role="button">Record Item</a>
+        <a class="btn btn-primary btn-lg" href="Sales.jsp" role="button">Record Sales</a>
 
     </div>
 </div>

@@ -52,7 +52,9 @@ public class PurchaseServlet extends HttpServlet {
             try {
                 PurchaseDao purchaseDao = new PurchaseDao();
                 purchaseDao.savePurchase(purchases);
+                System.out.println("After saving purchase");
                 resp.sendRedirect(req.getContextPath() + "/ItemFlow.jsp");
+
             } catch (Exception exception) {
                 exception.printStackTrace();
                 sendErrorMessage(resp, "purchase not recorded");

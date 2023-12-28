@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 //                System.out.println(employee1.getEmpUserName().toString());
 //                System.out.println(employee1.getEmpPassword().toString());
                 loginsuccessful=true;
-                resp.sendRedirect(req.getContextPath() + "/home.jsp");
+                resp.sendRedirect(req.getContextPath() + "/Home.jsp");
             }
             }
         if(!loginsuccessful){

@@ -22,15 +22,12 @@ public class ItemFlow {
     private LocalDate itemFlowDate;
 
     @OneToOne
-    @JoinColumn(name = "purchasesId",referencedColumnName = "purchaseCode")
     private Purchase purchasesItemFlow;
     @OneToOne
-    @JoinColumn(name = "sales", referencedColumnName = "salesIdentifier")
     private Sales ItemFlowsalesID;
 
 
     @OneToOne
-    @JoinColumn(name = "listOfItems")
     private Item itemList;
 
 

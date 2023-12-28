@@ -61,12 +61,14 @@ public class ItemFlowServlet extends HttpServlet {
             itemFlow.setPurchasesItemFlow(null);
             itemFlow.setItemList(item);
             itemFlowDao.saveItemFlow(itemFlow);
+            return;
         } else if (!purchasesItemFlow.isEmpty()) {
             // Handle the case where there is at least one purchaseItem
             itemFlow.setItemFlowsalesID(null);
             itemFlow.setPurchasesItemFlow(purchasesItemFlow.get(0));
             itemFlow.setItemList(item);
             itemFlowDao.saveItemFlow(itemFlow);
+            return;
         }
 
         // Set the itemList (if needed)

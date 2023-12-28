@@ -50,6 +50,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+
 </head>
 <body class="bg-light">
 <div class="container">
@@ -135,6 +136,8 @@
 
                                     Long totalPrice = 0L;
                                     Long quantity = 0L;
+                                    Long vat = 0L;
+                                    Long vatItem = 0L;
 
                                     // Iterate over the items and accumulate total values
                                     for (Item item : items) {
@@ -148,12 +151,14 @@
 
                                             // Calculate totalPrice using quantity
                                             totalPrice += Long.valueOf(item.getItemUnit()) * quantity;
+                                            vat = (long) (totalPrice*0.18);
+                                            vatItem = totalPrice + vat;
                                         } catch (NumberFormatException e) {
                                             // Handle the exception (e.g., log or set a default value for totalPrice)
                                         }
                                 %>
 <%--                                <option value="<%= item.getItemCode() %>"><%= totalPrice %></option>--%>
-                                <option value="<%= item.getItemCode() %>"><%= item.getItemName() %> - <%= quantity %> <%= item.getItemName() %> <%= "Total price"%> <%=totalPrice%></option>
+                                <option value="<%= item.getItemCode() %>"><%= item.getItemName() %> - <%= quantity %> <%= item.getItemName() %> <%= "Total price"%> <%=totalPrice%> <%="Vat"%> - <%=vatItem%></option>
                                 <%
                                     }
                                 %>
@@ -174,23 +179,26 @@
 <!-- Add the following script block at the end of your JSP file, before the closing </body> tag -->
 
 <script>
-    // Attach an event listener to the first dropdown to trigger the update
-    document.getElementById("item2").addEventListener("change", function () {
-        // Get the selected item ID from the first dropdown
-        var selectedItem = document.getElementById("item2");
-        var selectedItemId = selectedItem.value;
+    // Wrap the script inside a function to ensure it runs after the document is fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        // Attach an event listener to the first dropdown to trigger the update
+        document.getElementById("item2").addEventListener("change", function () {
+            // Get the selected item ID from the first dropdown
+            var selectedItem = document.getElementById("item2");
+            var selectedItemId = selectedItem.value;
 
-        // Get the calculated total price and quantity from the stored item details
-        var totalPrice = itemDetails[selectedItemId].totalPrice;
-        var quantity = itemDetails[selectedItemId].quantity;
-        var vat = itemDetails[selectedItemId].vat;
-        var vatItem = itemDetails[selectedItemId].vatItem;
+            // Get the calculated total price and quantity from the stored item details
+            var totalPrice = itemDetails[selectedItemId].totalPrice;
+            var quantity = itemDetails[selectedItemId].quantity;
+            var vat = itemDetails[selectedItemId].vat;
+            var vatItem = itemDetails[selectedItemId].vatItem;
 
 
-        // Update the content of the second dropdown
-        var itemsDropdown = document.getElementById("items");
-        itemsDropdown.innerHTML = '<option value="' + selectedItemId + '" selected>' +
-            'Total Price: ' + totalPrice + ' - Quantity: ' + quantity +  ' Vat : ' + vatItem + '</option>';
+            // Update the content of the second dropdown
+            var itemsDropdown = document.getElementById("items");
+            itemsDropdown.innerHTML = '<option value="' + selectedItemId + '" selected>' +
+                'Total Price: ' + totalPrice + ' - Quantity: ' + quantity + ' Vat : ' + vatItem + '</option>';
+        });
     });
 </script>
 </body>
