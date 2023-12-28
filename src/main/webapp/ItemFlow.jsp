@@ -26,11 +26,15 @@
         for (Item item : items) {
             Long totalPrice = Long.valueOf(item.getItemUnit()) * 5L;
             Long quantity = 5L;
+            Long vat= totalPrice*(18/100);
+            Long vatItem= totalPrice + vat;
     %>
 
     itemDetails['<%= item.getItemCode() %>'] = {
         totalPrice: <%= totalPrice %>,
-        quantity: <%= quantity %>
+        quantity: <%= quantity %>,
+        vat: <%= vat %>,
+        vatItem: <%= vatItem%>
     };
 
     <%
@@ -178,11 +182,14 @@
         // Get the calculated total price and quantity from the stored item details
         var totalPrice = itemDetails[selectedItemId].totalPrice;
         var quantity = itemDetails[selectedItemId].quantity;
+        var vat = itemDetails[selectedItemId].vat;
+        var vatItem = itemDetails[selectedItemId].vatItem;
+
 
         // Update the content of the second dropdown
         var itemsDropdown = document.getElementById("items");
         itemsDropdown.innerHTML = '<option value="' + selectedItemId + '" selected>' +
-            'Total Price: ' + totalPrice + ' - Quantity: ' + quantity + '</option>';
+            'Total Price: ' + totalPrice + ' - Quantity: ' + quantity +  ' Vat : ' + vatItem + '</option>';
     });
 </script>
 </body>
