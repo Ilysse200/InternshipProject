@@ -31,6 +31,7 @@ public class ItemFlowServlet extends HttpServlet {
 
         List<Sales> itemFlowsalesID = salesDao.displayAllSales();
         req.setAttribute("sales", itemFlowsalesID);
+
         List<Item> itemList = itemDao.displayAllEmployees();
         req.setAttribute("items", itemList);
 
@@ -42,33 +43,42 @@ public class ItemFlowServlet extends HttpServlet {
         // ...
 
         // Assuming you want to handle either itemSales or purchaseItem, not both
-        ItemFlow itemFlow = new ItemFlow(flowDate, purchaseItem, itemSales, item);
-        itemFlow.setItemFlowDate(flowDate);
+        ItemFlow itemFlow = new ItemFlow();
+
 
         if (!itemFlowsalesID.isEmpty()) {
             // Handle the case where there is at least one itemSales
             itemFlow.setItemFlowsalesID(itemFlowsalesID.get(0));
             itemFlow.setPurchasesItemFlow(null);
-//            itemFlowDao.saveItemFlow(itemFlow);
+            itemFlow.setItemFlowDate(flowDate);
+            itemFlow.setItemList(item);
+            itemFlow.setItemFlowDate(flowDate);
+            itemFlowDao.saveItemFlow(itemFlow);
         } else if (!purchasesItemFlow.isEmpty()) {
             // Handle the case where there is at least one purchaseItem
             itemFlow.setItemFlowsalesID(null);
             itemFlow.setPurchasesItemFlow(purchasesItemFlow.get(0));
-        } else {
-            // Handle the case where both lists are empty or any other specific logic
-            sendErrorMessage(resp, "No sales or purchases available");
-            return;
+            itemFlow.setItemFlowDate(flowDate);
+            itemFlow.setItemList(item);
+            itemFlow.setItemFlowDate(flowDate);
+            itemFlowDao.saveItemFlow(itemFlow);
         }
 
         // Set the itemList (if needed)
-        if (!itemList.isEmpty()) {
+        else if (!itemList.isEmpty()) {
             itemFlow.setItemList(itemList.get(0));
+        }
+        else {
+            // Handle the case where both lists are empty or any other specific logic
+            sendErrorMessage(resp, "No sales or purchases available");
+//            return;
         }
 
         // Save the itemFlow
         itemFlowDao.saveItemFlow(itemFlow);
         sendSuccessMessage(resp, "itemFlow saved successfully");
     }
+
 
 
         @Override

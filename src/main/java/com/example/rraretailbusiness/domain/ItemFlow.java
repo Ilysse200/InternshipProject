@@ -21,18 +21,15 @@ public class ItemFlow {
     private Long itemFlowId;
     private LocalDate itemFlowDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "purchasesId",referencedColumnName = "purchaseCode")
     private Purchase purchasesItemFlow;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "sales", referencedColumnName = "salesIdentifier")
     private Sales ItemFlowsalesID;
 
 
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToOne
     @JoinColumn(name = "listOfItems")
     private Item itemList;
 

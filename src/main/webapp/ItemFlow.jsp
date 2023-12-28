@@ -11,6 +11,33 @@
   Time: 3:10 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%-- Fetch all items and their details from the server --%>
+<%-- Fetch all items and their details from the server --%>
+<%
+    ItemDao itemDao = new ItemDao();
+    List<Item> items = itemDao.displayAllEmployees();
+%>
+
+<script>
+    var itemDetails = {};
+
+    <%
+        // Simulated calculation for total price and quantity (replace with actual logic)
+        for (Item item : items) {
+            Long totalPrice = Long.valueOf(item.getItemUnit()) * 5L;
+            Long quantity = 5L;
+    %>
+
+    itemDetails['<%= item.getItemCode() %>'] = {
+        totalPrice: <%= totalPrice %>,
+        quantity: <%= quantity %>
+    };
+
+    <%
+        }
+    %>
+</script>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -29,7 +56,7 @@
                     <form method="POST" action="registerItemFlow">
                         <div class="mb-3">
                             <label for="date" class="form-label">itemFlowDate</label>
-                            <input type="date" name="itemFlowDate" class="form-control" id="date" required>
+                            <input type="date" name="itemFlowDate" class="form-control" id="date" >
                         </div>
                         <div class="mb-3">
                             <label for="purchases" class="form-label">purchasesItemFlow</label>
@@ -73,24 +100,64 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="items" class="form-label">itemList</label>
-                            <select class="form-select" name="itemList" id="items" required>
+                            <label for="item2" class="form-label">itemList</label>
+                            <select class="form-select" name="itemList" id="item2" >
                                 <%
                                     // Fetch items from the database using the DAO
-                                    ItemDao itemDao = new ItemDao();
-                                    List<Item> items = itemDao.displayAllEmployees();
+                                    ItemDao itemsDao = new ItemDao();
+                                    List<Item> items1 = itemDao.displayAllEmployees();
+
 
                                     // Iterate over the items and generate <option> elements
                                     for (Item item : items) {
+
+
                                 %>
-                                <option value="<%= item.getItemCode() %>"><%= item.getItemName() %></option>
+                                <option value="<%= item.getItemCode() %>"><%= item.getItemName() %> - <%= item.getItemCode()%> - <%= item.getItemMeasure()%></option>
                                 <%
                                     }
                                 %>
 
                             </select>
-                        <button type="submit" class="btn btn-primary col-md-12">Register</button>
                         </div>
+                        <div class="mb-3">
+                            <label for="items" class="form-label">itemList</label>
+                            <select class="form-select" name="itemList" id="items" >
+                                <%
+                                    // Fetch items from the database using the DAO
+                                    ItemDao dao = new ItemDao();
+                                    List<Item> Total = itemDao.displayAllEmployees();
+
+                                    Long totalPrice = 0L;
+                                    Long quantity = 0L;
+
+                                    // Iterate over the items and accumulate total values
+                                    for (Item item : items) {
+                                        try {
+                                            // Set quantity based on item measure
+                                            if ("box".equals(item.getItemMeasure())) {
+                                                quantity = 5L;
+                                            } else {
+                                                quantity = 10L;
+                                            }
+
+                                            // Calculate totalPrice using quantity
+                                            totalPrice += Long.valueOf(item.getItemUnit()) * quantity;
+                                        } catch (NumberFormatException e) {
+                                            // Handle the exception (e.g., log or set a default value for totalPrice)
+                                        }
+                                %>
+<%--                                <option value="<%= item.getItemCode() %>"><%= totalPrice %></option>--%>
+                                <option value="<%= item.getItemCode() %>"><%= item.getItemName() %> - <%= quantity %> <%= item.getItemName() %> <%= "Total price"%> <%=totalPrice%></option>
+                                <%
+                                    }
+                                %>
+
+
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary col-md-12">Register</button>
+
                     </form>
 
                 </div>
@@ -99,5 +166,24 @@
     </div>
 </div>
 </div>
+<!-- Add the following script block at the end of your JSP file, before the closing </body> tag -->
+
+<script>
+    // Attach an event listener to the first dropdown to trigger the update
+    document.getElementById("item2").addEventListener("change", function () {
+        // Get the selected item ID from the first dropdown
+        var selectedItem = document.getElementById("item2");
+        var selectedItemId = selectedItem.value;
+
+        // Get the calculated total price and quantity from the stored item details
+        var totalPrice = itemDetails[selectedItemId].totalPrice;
+        var quantity = itemDetails[selectedItemId].quantity;
+
+        // Update the content of the second dropdown
+        var itemsDropdown = document.getElementById("items");
+        itemsDropdown.innerHTML = '<option value="' + selectedItemId + '" selected>' +
+            'Total Price: ' + totalPrice + ' - Quantity: ' + quantity + '</option>';
+    });
+</script>
 </body>
 </html>

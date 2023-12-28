@@ -4,6 +4,6 @@
          version="5.0">
 
     <welcome-file-list>
-        <welcome-file>Sales.jsp</welcome-file>
+        <welcome-file>ItemFlow.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
