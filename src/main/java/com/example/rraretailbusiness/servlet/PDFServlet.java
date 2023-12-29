@@ -75,6 +75,9 @@ public class PDFServlet extends HttpServlet {
                     contentStream.newLineAtOffset(0, -leading);
 
                 }
+                contentStream.newLine();
+                contentStream.showText("--------------------------------------------------------");
+                contentStream.newLineAtOffset(0, -leading);
 
                 //Display Items
                 contentStream.showText("Item Information");
@@ -109,6 +112,10 @@ public class PDFServlet extends HttpServlet {
                     contentStream.newLine();
 
                 }
+                contentStream.newLine();
+                contentStream.showText("--------------------------------------------------------");
+                contentStream.newLineAtOffset(0, -leading);
+
                 contentStream.showText("Total tax: " + vatItem);
                 contentStream.newLine();
 
