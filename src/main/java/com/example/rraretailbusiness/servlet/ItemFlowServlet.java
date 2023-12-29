@@ -43,6 +43,9 @@ public class ItemFlowServlet extends HttpServlet {
         List<Item> itemList = itemDao.displayAllEmployees();
         req.setAttribute("items", itemList);
 
+        // Retrieve the VAT value from the request
+        String vatValue = req.getParameter("vatValue");
+
 
         Purchase purchaseItem = purchasesItemFlow.isEmpty() ? null : purchasesItemFlow.get(0);
         Sales itemSales = itemFlowsalesID.isEmpty() ? null : itemFlowsalesID.get(0);

@@ -1,7 +1,9 @@
 package com.example.rraretailbusiness.servlet;
 
+import com.example.rraretailbusiness.dao.ItemDao;
 import com.example.rraretailbusiness.dao.PurchaseDao;
 import com.example.rraretailbusiness.dao.SalesDao;
+import com.example.rraretailbusiness.domain.Item;
 import com.example.rraretailbusiness.domain.Purchase;
 import com.example.rraretailbusiness.domain.Sales;
 import jakarta.servlet.ServletException;
@@ -18,7 +20,9 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/pdfReports")
+
+
+@WebServlet("/pdfReport")
 public class PDFServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Set the content type and the file name
@@ -40,6 +44,9 @@ public class PDFServlet extends HttpServlet {
 
                 PurchaseDao purchaseDao = new PurchaseDao();
                 List<Purchase> purchases = purchaseDao.displayAllPurchases();
+
+                ItemDao itemDao = new ItemDao();
+                List<Item> itemList = itemDao.displayAllEmployees();
 
                 contentStream.beginText();
                 for (Sales sales : salesList) {
@@ -64,15 +71,52 @@ public class PDFServlet extends HttpServlet {
                     contentStream.showText("Purchase ID: " + purchase.getPurchaseId());
                     contentStream.newLineAtOffset(0, -leading); // Move to the next line with appropriate spacing
                     contentStream.showText("Purchase Date: " + purchase.getPurchaseDate());
+                    // Move to the next line with appropriate spacing
+                    contentStream.newLineAtOffset(0, -leading);
+
+                }
+
+                //Display Items
+                contentStream.showText("Item Information");
+                Long quantity = 0L;
+                Long vatItem = 0L;
+                Long price = 0L;
+                Long vat = 0L;
+
+                for(Item item:itemList){
+                    if("box".equals(item.getItemMeasure())){
+                        quantity = 5L;
+                        System.out.println("Item Unit: " + item.getItemUnit());
+                        System.out.println("Item Measure: " + item.getItemMeasure());
+                        price = 0L + (Long.valueOf(item.getItemUnit()) * quantity);
+                        vat = (long) (0.18 * price);
+                        vatItem = vat + price;
+                        contentStream.newLineAtOffset(0, -leading);
+
+                    }
+                    else if("pack".equals(item.getItemMeasure())){
+                        quantity = 10L;
+                        System.out.println("Item Unit: " + item.getItemUnit());
+                        System.out.println("Item Measure: " + item.getItemMeasure());
+                        price = 0L + (Long.valueOf(item.getItemUnit()) * quantity);
+                        vat = (long) (0.18 * price);
+                        vatItem = vat + price;
+                        // Move to the next line with appropriate spacing
+                        contentStream.newLineAtOffset(0, -leading);
+
+                    }
+
                     contentStream.newLine();
 
                 }
+                contentStream.showText("Total tax: " + vatItem);
+                contentStream.newLine();
 
             }
 
             // Save the document to the response output stream
             document.save(response.getOutputStream());
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace(); // Handle exceptions appropriately
         }
     }

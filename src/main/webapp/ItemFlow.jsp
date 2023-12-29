@@ -62,6 +62,7 @@
                     <form method="POST" action="registerItemFlow">
                         <div class="mb-3">
                             <label for="date" class="form-label">itemFlowDate</label>
+                            <input type="hidden" name="vatValue" id="vatValue" value="">
                             <input type="date" name="itemFlowDate" class="form-control" id="date" >
                         </div>
                         <div class="mb-3">
@@ -192,6 +193,9 @@
             var quantity = itemDetails[selectedItemId].quantity;
             var vat = itemDetails[selectedItemId].vat;
             var vatItem = itemDetails[selectedItemId].vatItem;
+
+            // Set the VAT value in the hidden input field
+            document.getElementById("vatValue").value = vatItem;
 
 
             // Update the content of the second dropdown
