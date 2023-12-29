@@ -13,6 +13,8 @@ public class PurchaseDao {
         try{
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
+            // Disable foreign key constraints
+            session.createNativeQuery("SET FOREIGN_KEY_CHECKS=0").executeUpdate();
             session.save(purchase);
             transaction.commit();
             session.close();

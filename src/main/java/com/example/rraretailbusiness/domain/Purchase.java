@@ -25,16 +25,17 @@ public class Purchase {
 
 
     @OneToMany
+    @JoinColumn(name = "supplierIdentifier")
     private List<Supplier>purchaseSupplier;
 
 
-    @OneToMany(
-            orphanRemoval = true
-    )
+    @OneToMany
+    @JoinColumn(name = "itemIdentifier")
     private  List<Item> items;
 
 
     @OneToOne
+    @JoinColumn(name = "employeeIdentifier")
     private Employee empPurchase;
 
     //This is an empty constructor
