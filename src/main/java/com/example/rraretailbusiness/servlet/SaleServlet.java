@@ -30,17 +30,37 @@ public class SaleServlet extends HttpServlet {
         req.setAttribute("customers", customers);
         List<Item> items= itemDao.displayAllEmployees();
         req.setAttribute("items", items);
+
         List<Employee> employees = employeeDao.displayAllEmployees();
         req.setAttribute("employees", employees);
 
+
+
         if(dateSales !=null && !dateSales.isEmpty()) {
             LocalDate sale = LocalDate.parse(dateSales);
+            Sales sales = new Sales();
+            sales.setSalesDate(sale);
+
 
             // Assuming you want to associate the first employee from the list with the sales
-            Customer customer = customers.isEmpty() ? null : customers.get(0);
+            Customer customer = new Customer();
+            for(Customer customer1: customers){
+                if(customer1 !=null){
+                    customer = customer1;
+                }
+
+            }
+            sales.setCustomer(customer);
 
 
-            Sales sales = new Sales(sale, customer, items, employees);
+
+            Employee employee = new Employee();
+            for(Employee employee1: employees){
+                if(employee1 !=null){
+                    employee = employee1;
+                }
+            }
+            sales.setSalesExecuter(employee);
 
             try {
                 SalesDao salesDao = new SalesDao();

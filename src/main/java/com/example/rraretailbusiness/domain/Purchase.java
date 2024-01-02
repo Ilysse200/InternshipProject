@@ -24,14 +24,14 @@ public class Purchase {
     private LocalDate purchaseDate;
 
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "supplierIdentifier")
-    private List<Supplier>purchaseSupplier;
+    private Supplier supplierId;
 
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "itemIdentifier")
-    private  List<Item> items;
+    private  Item items;
 
 
     @OneToOne
@@ -44,19 +44,29 @@ public class Purchase {
 
     //parameterized constructor without the primary Key
 
-    public Purchase(LocalDate purchaseDate, List<Supplier> purchaseSupplier, List<Item> items, Employee empPurchase) {
+
+    // Constructor to save the purchase without supplier
+
+
+    public Purchase(LocalDate purchaseDate, Item items, Employee empPurchase) {
         this.purchaseDate = purchaseDate;
-        this.purchaseSupplier = purchaseSupplier;
+        this.items = items;
+        this.empPurchase = empPurchase;
+    }
+
+    public Purchase(LocalDate purchaseDate, Supplier supplierId, Item items, Employee empPurchase) {
+        this.purchaseDate = purchaseDate;
+        this.supplierId = supplierId;
         this.items = items;
         this.empPurchase = empPurchase;
     }
 
     //Parameterised contructor that facilitates the construction of new objects
 
-    public Purchase(Long purchaseId, LocalDate purchaseDate, List<Supplier> purchaseSupplier, List<Item> items, Employee empPurchase) {
+    public Purchase(Long purchaseId, LocalDate purchaseDate, Supplier purchaseSupplier, Item items, Employee empPurchase) {
         this.purchaseId = purchaseId;
         this.purchaseDate = purchaseDate;
-        this.purchaseSupplier = purchaseSupplier;
+        this.supplierId = purchaseSupplier;
         this.items = items;
         this.empPurchase = empPurchase;
     }
@@ -75,11 +85,11 @@ public class Purchase {
         return purchaseDate;
     }
 
-    public List getPurchaseSupplier() {
-        return purchaseSupplier;
+    public Supplier getSupplierId() {
+        return supplierId;
     }
 
-    public List getItems() {
+    public Item getItems() {
         return items;
     }
 
@@ -91,11 +101,12 @@ public class Purchase {
         this.purchaseDate = purchaseDate;
     }
 
-    public void setPurchaseSupplier(List purchaseSupplier) {
-        this.purchaseSupplier = purchaseSupplier;
+
+    public void setSupplierId(Supplier supplierId) {
+        this.supplierId = supplierId;
     }
 
-    public void setItems(List items) {
+    public void setItems(Item items) {
         this.items = items;
     }
 

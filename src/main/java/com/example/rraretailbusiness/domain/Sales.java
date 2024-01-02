@@ -17,16 +17,16 @@ public class Sales {
     private LocalDate salesDate;
 
     @ManyToOne
-    @JoinColumn(name = "customerTrack")
+    @JoinColumn(name = "customerIdentifier")
     private Customer customerId;
 
     @OneToMany
     @JoinColumn(name = "itemIdentifier")
     private List<Item> items;
 
-    @OneToMany
-    @JoinColumn(name = "employeeIdentifier")
-    private List<Employee> salesExecuter;
+    @ManyToOne
+    @JoinColumn(name = "empId")
+    private Employee salesExecuter;
 
 
     //This is an empty constructor
@@ -35,7 +35,7 @@ public class Sales {
 
 
     //The following are parameterised constructors they enable us to create objects
-    public Sales(Long salesID, LocalDate salesDate, Customer customerId, List<Item> items, List salesExecuter) {
+    public Sales(Long salesID, LocalDate salesDate, Customer customerId, List<Item> items, Employee salesExecuter) {
         this.salesID = salesID;
         this.salesDate = salesDate;
         this.customerId = customerId;
@@ -43,7 +43,7 @@ public class Sales {
         this.salesExecuter = salesExecuter;
     }
 
-    public Sales(LocalDate salesDate, Customer customerId, List<Item> items, List<Employee> salesExecuter) {
+    public Sales(LocalDate salesDate, Customer customerId, List<Item> items, Employee salesExecuter) {
         this.salesDate = salesDate;
         this.customerId = customerId;
         this.items = items;
@@ -72,7 +72,7 @@ public class Sales {
         return items;
     }
 
-    public List getSalesExecuter() {
+    public Employee getSalesExecuter() {
         return salesExecuter;
     }
 
@@ -88,7 +88,7 @@ public class Sales {
         this.items = items;
     }
 
-    public void setSalesExecuter(List salesExecuter) {
+    public void setSalesExecuter(Employee salesExecuter) {
         this.salesExecuter = salesExecuter;
     }
 }

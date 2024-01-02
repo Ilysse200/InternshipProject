@@ -39,19 +39,44 @@ public class PurchaseServlet extends HttpServlet {
         req.setAttribute("items", items);
         List<Employee> employees = employeeDao.displayAllEmployees();
         req.setAttribute("employees", employees);
+        Purchase purchase = new Purchase();
 
         if(datePurchase !=null && !datePurchase.isEmpty()) {
-            LocalDate purchase = LocalDate.parse(datePurchase);
+            LocalDate purchases = LocalDate.parse(datePurchase);
+            purchase.setPurchaseDate(purchases);
 
-            // Assuming you want to associate the first employee from the list with the purchase
-            Employee empPurchase = employees.isEmpty() ? null : employees.get(0);
+            Supplier supplier = new Supplier();
+            for(Supplier supplier1: suppliers){
+                if(supplier1 !=null){
+                    supplier = supplier1;
+                }
+
+            }
+            purchase.setSupplierId(supplier);
+
+            Item item = new Item();
+            for(Item item1: items){
+                if(item1 !=null){
+                    item = item1;
+                }
+
+            }
+            purchase.setItems(item);
 
 
-            Purchase purchases = new Purchase(purchase, suppliers, items, empPurchase);
+            Employee employee = new Employee();
+            for(Employee employee1: employees){
+                if(employee1 !=null){
+                    employee = employee1;
+                }
+            }
+            purchase.setEmpPurchase(employee);
+
+
 
             try {
                 PurchaseDao purchaseDao = new PurchaseDao();
-                purchaseDao.savePurchase(purchases);
+                purchaseDao.savePurchase(purchase);
                 System.out.println("After saving purchase");
                 resp.sendRedirect(req.getContextPath() + "/ItemFlow.jsp");
 
@@ -60,7 +85,7 @@ public class PurchaseServlet extends HttpServlet {
                 sendErrorMessage(resp, "purchase not recorded");
             }
         }
-        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
