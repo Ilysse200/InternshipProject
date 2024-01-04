@@ -10,7 +10,7 @@ public interface EmployeeService {
 
     String saveEmployee(Employee employee) ;
     List<Employee> displayAllEmployees();
-    boolean findEmployeeId(Long Id);
+    Employee findEmployeeId(Long Id);
     boolean deleteEmployee(Long Id);
     boolean UpdateEmployee(Employee employee, Long Id);
 

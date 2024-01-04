@@ -29,9 +29,7 @@ public class Purchase {
     private Supplier supplierId;
 
 
-    @ManyToOne
-    @JoinColumn(name = "itemIdentifier")
-    private  Item items;
+
 
 
     @OneToOne
@@ -48,26 +46,23 @@ public class Purchase {
     // Constructor to save the purchase without supplier
 
 
-    public Purchase(LocalDate purchaseDate, Item items, Employee empPurchase) {
+    public Purchase(LocalDate purchaseDate, Employee empPurchase) {
         this.purchaseDate = purchaseDate;
-        this.items = items;
         this.empPurchase = empPurchase;
     }
 
-    public Purchase(LocalDate purchaseDate, Supplier supplierId, Item items, Employee empPurchase) {
+    public Purchase(LocalDate purchaseDate, Supplier supplierId,Employee empPurchase) {
         this.purchaseDate = purchaseDate;
         this.supplierId = supplierId;
-        this.items = items;
         this.empPurchase = empPurchase;
     }
 
     //Parameterised contructor that facilitates the construction of new objects
 
-    public Purchase(Long purchaseId, LocalDate purchaseDate, Supplier purchaseSupplier, Item items, Employee empPurchase) {
+    public Purchase(Long purchaseId, LocalDate purchaseDate, Supplier purchaseSupplier, Employee empPurchase) {
         this.purchaseId = purchaseId;
         this.purchaseDate = purchaseDate;
         this.supplierId = purchaseSupplier;
-        this.items = items;
         this.empPurchase = empPurchase;
     }
 
@@ -89,9 +84,6 @@ public class Purchase {
         return supplierId;
     }
 
-    public Item getItems() {
-        return items;
-    }
 
     public Employee getEmpPurchase() {
         return empPurchase;
@@ -106,9 +98,7 @@ public class Purchase {
         this.supplierId = supplierId;
     }
 
-    public void setItems(Item items) {
-        this.items = items;
-    }
+
 
     public void setEmpPurchase(Employee empPurchase) {
         this.empPurchase = empPurchase;

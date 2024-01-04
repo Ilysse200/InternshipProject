@@ -23,6 +23,9 @@ public class ItemFlow {
 
     @OneToOne
     private Purchase purchasesItemFlow;
+
+    @Column(name = "status")
+    private String status;
     @OneToOne
     private Sales ItemFlowsalesID;
 
@@ -52,6 +55,20 @@ public class ItemFlow {
         this.itemList = itemList;
     }
 
+    public ItemFlow(LocalDate itemFlowDate, Purchase purchasesItemFlow, String status, Item itemList) {
+        this.itemFlowDate = itemFlowDate;
+        this.purchasesItemFlow = purchasesItemFlow;
+        this.status = status;
+        this.itemList = itemList;
+    }
+
+    public ItemFlow(LocalDate itemFlowDate, String status, Sales itemFlowsalesID, Item itemList) {
+        this.itemFlowDate = itemFlowDate;
+        this.status = status;
+        ItemFlowsalesID = itemFlowsalesID;
+        this.itemList = itemList;
+    }
+
     public ItemFlow(LocalDate itemFlowDate, Purchase purchasesItemFlow, Item itemList) {
         this.itemFlowDate = itemFlowDate;
         this.purchasesItemFlow = purchasesItemFlow;
@@ -68,6 +85,14 @@ public class ItemFlow {
          Every column or field of the class ItemFlow has got setters except the itemFlowId, so that
          none can change it.
      */
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Long getItemFlowId() {
         return itemFlowId;

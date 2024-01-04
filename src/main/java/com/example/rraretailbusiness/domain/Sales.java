@@ -20,9 +20,6 @@ public class Sales {
     @JoinColumn(name = "customerIdentifier")
     private Customer customerId;
 
-    @OneToMany
-    @JoinColumn(name = "itemIdentifier")
-    private List<Item> items;
 
     @ManyToOne
     @JoinColumn(name = "empId")
@@ -35,18 +32,16 @@ public class Sales {
 
 
     //The following are parameterised constructors they enable us to create objects
-    public Sales(Long salesID, LocalDate salesDate, Customer customerId, List<Item> items, Employee salesExecuter) {
+    public Sales(Long salesID, LocalDate salesDate, Customer customerId,Employee salesExecuter) {
         this.salesID = salesID;
         this.salesDate = salesDate;
         this.customerId = customerId;
-        this.items = items;
         this.salesExecuter = salesExecuter;
     }
 
-    public Sales(LocalDate salesDate, Customer customerId, List<Item> items, Employee salesExecuter) {
+    public Sales(LocalDate salesDate, Customer customerId, Employee salesExecuter) {
         this.salesDate = salesDate;
         this.customerId = customerId;
-        this.items = items;
         this.salesExecuter = salesExecuter;
     }
 
@@ -68,9 +63,6 @@ public class Sales {
         return customerId;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
 
     public Employee getSalesExecuter() {
         return salesExecuter;
@@ -84,9 +76,6 @@ public class Sales {
         this.customerId = customerId;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
 
     public void setSalesExecuter(Employee salesExecuter) {
         this.salesExecuter = salesExecuter;

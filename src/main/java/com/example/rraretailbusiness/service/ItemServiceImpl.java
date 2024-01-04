@@ -19,7 +19,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public boolean findItemId(Long Id) {
+    public Item findItemId(Long Id) {
         return dao.findItemId(Id);
     }
 

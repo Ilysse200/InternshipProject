@@ -19,7 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean findEmployeeId(Long Id) {
+    public Employee findEmployeeId(Long Id) {
         return dao.findEmployeeId(Id);
     }
 

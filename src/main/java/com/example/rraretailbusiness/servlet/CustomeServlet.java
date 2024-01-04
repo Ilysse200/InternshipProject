@@ -69,6 +69,7 @@ public class CustomeServlet extends HttpServlet {
 //          employeeDao.saveEmployee(employee);
             customerDao.saveCustomer(customer);
             sendSuccessMessage(response, "customer registered successfully");
+            response.sendRedirect(request.getContextPath() + "/Home.jsp");
 
 
         } catch (Exception ex) {

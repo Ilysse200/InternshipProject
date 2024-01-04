@@ -33,6 +33,7 @@ public class ItemServlet extends HttpServlet {
             ItemDao dao = new ItemDao();
             dao.saveItem(item);
             sendSuccessMessage(resp, "Item saved successfully");
+            resp.sendRedirect(req.getContextPath() + "/Home.jsp");
             return;
 
         }catch (Exception exception){

@@ -20,7 +20,7 @@ public class SupplierServiceImpl implements SupplierService{
     }
 
     @Override
-    public boolean findSupplierId(Long Id) {
+    public Supplier findSupplierId(Long Id) {
         return dao.findSupplierId(Id);
     }
 

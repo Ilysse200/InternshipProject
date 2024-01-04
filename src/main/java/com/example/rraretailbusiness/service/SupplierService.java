@@ -8,7 +8,7 @@ public interface SupplierService {
 
     String saveSupplier(Supplier supplier) ;
     List<Supplier> displayAllSuppliers();
-    boolean findSupplierId(Long Id);
+    Supplier findSupplierId(Long Id);
     boolean deleteSupplier(Long Id);
     boolean UpdateSupplier(Supplier supplier, Long Id);
 }

@@ -17,7 +17,7 @@ public class ItemDao {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
             // Disable foreign key constraints
-            session.createNativeQuery("SET FOREIGN_KEY_CHECKS=0").executeUpdate();
+//            session.createNativeQuery("SET FOREIGN_KEY_CHECKS=0").executeUpdate();
             session.save(item);
             transaction.commit();
             session.close();
@@ -45,28 +45,29 @@ public class ItemDao {
     }
 
     //This method will help us to check whether the employee exists
-    public boolean findItemId(Long Id){
+    public Item findItemId(Long Id){
 
         try{
 
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
 
-            Query query = session.createQuery("FROM Employee where empID =:id");
-            query.setParameter("Id", Id);
+            Query query = session.createQuery("FROM Item where itemCode =:id");
+            query.setParameter("id", Id);
 
             Item item = (Item) query.uniqueResult();
+            System.out.println("Found Item: " + item);
 
 
             transaction.commit();
             session.close();
 
-            return true;
+            return item;
 
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     public boolean deleteItem(Long id){
@@ -135,9 +136,12 @@ public class ItemDao {
             query.setParameter("Id", Id);
 
             item = (Item) query.uniqueResult();
+            ItemDao itemDao = new ItemDao();
+            Item item1 = itemDao.findItemId(Id);
 
 
-            if ((findItemId(Id))==true){
+
+            if (item1 !=null){
 
 
                 session.update(item);

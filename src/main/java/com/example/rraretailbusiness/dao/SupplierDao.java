@@ -45,7 +45,7 @@ public class SupplierDao {
     }
 
     //This method will help us to check whether the supplier exists
-    public boolean findSupplierId(Long Id){
+    public Supplier findSupplierId(Long Id){
 
         try{
 
@@ -53,20 +53,18 @@ public class SupplierDao {
             Transaction transaction = session.beginTransaction();
 
             Query query = session.createQuery("FROM Supplier where supplierId =:id");
-            query.setParameter("Id", Id);
+            query.setParameter("id", Id);
 
             Supplier supplier = (Supplier) query.uniqueResult();
-
-
             transaction.commit();
             session.close();
 
-            return true;
+            return supplier;
 
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     public boolean deleteSupplier(Long id){
@@ -136,10 +134,11 @@ public class SupplierDao {
 
             supplier = (Supplier) query.uniqueResult();
 
+            SupplierDao supplierDao = new SupplierDao();
+            Supplier supplier1 = supplierDao.findSupplierId(Id);
 
-            if ((findSupplierId(Id))==true){
 
-
+            if (supplier1 !=null){
                 session.update(supplier);
                 transaction.commit();
                 session.close();

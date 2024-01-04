@@ -1,13 +1,7 @@
 package com.example.rraretailbusiness.servlet;
 
-import com.example.rraretailbusiness.dao.EmployeeDao;
-import com.example.rraretailbusiness.dao.ItemDao;
-import com.example.rraretailbusiness.dao.PurchaseDao;
-import com.example.rraretailbusiness.dao.SupplierDao;
-import com.example.rraretailbusiness.domain.Employee;
-import com.example.rraretailbusiness.domain.Item;
-import com.example.rraretailbusiness.domain.Purchase;
-import com.example.rraretailbusiness.domain.Supplier;
+import com.example.rraretailbusiness.dao.*;
+import com.example.rraretailbusiness.domain.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,74 +12,117 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 
 @WebServlet("/registerPurchase")
 public class PurchaseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            // Get parameters from the request
+            String datePurchase = req.getParameter("purchaseDate");
+            String supplierId = req.getParameter("supplierId");
+            String empPurchaseId = req.getParameter("empPurchase");
+            String buttonClick = req.getParameter("submitButton");
+
+//            String selectedItem = req.getParameter("itemList");
 
 
-        SupplierDao supplierDao =  new SupplierDao();
 
-        ItemDao itemDao = new ItemDao();
 
-        EmployeeDao employeeDao = new EmployeeDao();
 
-        String datePurchase = req.getParameter("purchaseDate");
-        List<Supplier> suppliers= supplierDao.displayAllSuppliers() ;
-        req.setAttribute("suppliers", suppliers);
-        List<Item> items= itemDao.displayAllEmployees();
-        req.setAttribute("items", items);
-        List<Employee> employees = employeeDao.displayAllEmployees();
-        req.setAttribute("employees", employees);
-        Purchase purchase = new Purchase();
 
-        if(datePurchase !=null && !datePurchase.isEmpty()) {
-            LocalDate purchases = LocalDate.parse(datePurchase);
-            purchase.setPurchaseDate(purchases);
+            // Validate parameters
+            if (datePurchase == null || datePurchase.isEmpty() || supplierId == null || empPurchaseId == null) {
+                sendErrorMessage(resp, "Invalid parameters");
+//                resp.sendRedirect(req.getContextPath() + "/purchase.jsp");
 
-            Supplier supplier = new Supplier();
-            for(Supplier supplier1: suppliers){
-                if(supplier1 !=null){
-                    supplier = supplier1;
-                }
+            }
 
+            // Parse parameters
+            LocalDate purchaseDate = LocalDate.parse(datePurchase);
+            System.out.println(datePurchase);
+            Long supplierIdLong = Long.parseLong(supplierId);
+            System.out.println(supplierIdLong);
+            Long empPurchaseIdLong = Long.parseLong(empPurchaseId);
+            System.out.println(empPurchaseIdLong);
+
+
+
+            // Create and set Purchase object
+            Purchase purchase = new Purchase();
+            if(purchaseDate !=LocalDate.now())
+            purchase.setPurchaseDate(purchaseDate);
+
+            // Set Supplier and Employee for the Purchase
+            SupplierDao supplierDao = new SupplierDao();
+            Supplier supplier = supplierDao.findSupplierId(supplierIdLong);
+            if (supplier == null) {
+                sendErrorMessage(resp, "Supplier not found");
+                return;
             }
             purchase.setSupplierId(supplier);
 
-            Item item = new Item();
-            for(Item item1: items){
-                if(item1 !=null){
-                    item = item1;
-                }
-
-            }
-            purchase.setItems(item);
-
-
-            Employee employee = new Employee();
-            for(Employee employee1: employees){
-                if(employee1 !=null){
-                    employee = employee1;
-                }
+            EmployeeDao employeeDao = new EmployeeDao();
+            Employee employee = employeeDao.findEmployeeId(empPurchaseIdLong);
+            if (employee == null) {
+                sendErrorMessage(resp, "Employee not found");
+                return;
             }
             purchase.setEmpPurchase(employee);
 
+            // Save the Purchase
+            PurchaseDao purchaseDao = new PurchaseDao();
+            purchaseDao.savePurchase(purchase);
+            System.out.println("Purchase record is " + purchase.getPurchaseId() + purchase.getSupplierId() + purchase.getEmpPurchase());
+
+            // Check whether the button was clicked
+            if (buttonClick != null) {
+
+                // Save multiple items in the itemFlow table
+
+                Item item = new Item();
+
+                ItemFlowDao itemFlowDao = new ItemFlowDao();
 
 
-            try {
-                PurchaseDao purchaseDao = new PurchaseDao();
-                purchaseDao.savePurchase(purchase);
-                System.out.println("After saving purchase");
-                resp.sendRedirect(req.getContextPath() + "/ItemFlow.jsp");
+                ItemDao itemDao = new ItemDao();
 
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                sendErrorMessage(resp, "purchase not recorded");
+                //create an item List
+                List<Item> items = itemDao.displayAllEmployees();
+                req.setAttribute("itemName", items);
+                for (Item item1 : items) {
+                    if (item1 != null) {
+                        ItemFlow itemFlow = new ItemFlow();
+                        itemFlow.setStatus("IN");
+                        itemFlow.setItemFlowsalesID(null);
+                        itemFlow.setItemList(item1);
+                        itemFlow.setPurchasesItemFlow(purchase);
+                        itemFlow.setItemFlowDate(purchaseDate);
+
+
+                        //save the itemFlow
+                        itemFlowDao.saveItemFlow(itemFlow);
+                    }
+
+                }
             }
+
+
+
+
+
+            // Redirect to a success page
+            resp.sendRedirect(req.getContextPath() + "/Home.jsp");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            sendErrorMessage(resp, "Error occurred: " + e.getMessage());
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

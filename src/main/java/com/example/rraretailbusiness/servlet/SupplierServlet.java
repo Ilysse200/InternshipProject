@@ -30,16 +30,18 @@ public class SupplierServlet extends HttpServlet {
         // Validation of the supplier tin
 
         if(!tin.matches("^1\\d{8}$") || !isTinUnique(tin) || name.trim().isEmpty()){
-            sendErrorMessage(resp, "Make sure validation rules are respected");
+            resp.sendRedirect(req.getContextPath() + "/Error.jsp");
             return;
         }
             try{
                 SupplierDao supplierDao = new SupplierDao();
                 supplierDao.saveSupplier(supplier);
                 sendSuccessMessage(resp, "Supplier registered successfully");
+                resp.sendRedirect(req.getContextPath() + "/Home.jsp");
 
             }catch (Exception exception){
                 exception.printStackTrace();
+                System.out.println(exception.toString());
                 sendErrorMessage(resp, "supplier not saved");
             }
         }

@@ -50,23 +50,43 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="items" class="form-label">Items</label>
-                            <select class="form-select" name="items" id="items" required>
-                                <%
-                                    // Fetch items from the database using the DAO
-                                    ItemDao itemDao = new ItemDao();
-                                    List<Item> items = itemDao.displayAllEmployees();
+                            <div class="tab tab-1">
+                                <table id="table" border="3" cellpadding="5" cellspacing="0">
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Item Quantity</th>
+                                        <th>Item Price</th>
+                                    </tr>
+                                </table>
+                            </div>
+                                <div class="tab">
+                                    Item Name : <input type="text" name="itemname" id="item"><br>
+                                    Item Quantity : <input type="text" name="itemquantity" id="itemnumber"><br>
+                                    Item Price : <input type="text" name="itemname" id="itemPrice"><br>
 
-                                    // Iterate over the items and generate <option> elements
-                                    for (Item item : items) {
-                                %>
-                                <option value="<%= item.getItemCode() %>"><%= item.getItemName() %></option>
-                                <%
-                                    }
-                                %>
-                            </select>
+                                    <button>Save</button>
+                                </div>
+<%--                            </div>--%>
+<%--                             <button id="addItemButton" onclick="showItemDetails()">Add Item</button>--%>
+<%--                        </div>--%>
+
+
+
+                        <div id="itemDetailsTable" style="display: none;">
+                            <h3>Item Details</h3>
+                            <table border="1">
+                                <thead>
+                                <tr>
+                                    <th>Item Code</th>
+                                    <th>Item Name</th>
+                                    <!-- Add more columns as needed for item details -->
+                                </tr>
+                                </thead>
+                                <tbody id="itemDetailsBody">
+                                <!-- Item details will be displayed here dynamically -->
+                                </tbody>
+                            </table>
                         </div>
-
                         <div class="mb-3">
                             <label for="employee" class="form-label">Employee</label>
                             <select class="form-select" name="empPurchase" id="employee" required>
@@ -93,6 +113,33 @@
     </div>
 </div>
 </div>
+<script>
+    function showItemDetails() {
+        var selectedItemCode = document.getElementById("items").value;
+        var url = "/getItemDetails?itemCode=" + selectedItemCode;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                displayItemDetails(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function displayItemDetails(itemDetails) {
+        var tableBody = document.getElementById("itemDetailsBody");
+        tableBody.innerHTML = "";
+
+        var newRow = tableBody.insertRow(0);
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+
+        cell1.innerHTML = itemDetails.itemCode;
+        cell2.innerHTML = itemDetails.itemName;
+
+        document.getElementById("itemDetailsTable").style.display = "block";
+    }
+</script>
 </body>
 </html>
 

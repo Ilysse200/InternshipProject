@@ -14,6 +14,7 @@
 <centre>
     <h1>Error</h1>
     <h2><%=exception.getMessage()%></h2>
+    <button><a href=<%="Supplier.jsp"%>%></a>"<%="Back"%>"</button>
 </centre>
 
 </body>

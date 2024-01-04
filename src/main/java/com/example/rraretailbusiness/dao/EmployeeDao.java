@@ -50,7 +50,7 @@ public class EmployeeDao {
     }
 
     //This method will help us to check whether the employee exists
-    public boolean findEmployeeId(Long Id){
+    public Employee findEmployeeId(Long Id){
 
         try{
 
@@ -58,7 +58,7 @@ public class EmployeeDao {
             Transaction transaction = session.beginTransaction();
 
             Query query = session.createQuery("FROM Employee where empID =:id");
-            query.setParameter("Id", Id);
+            query.setParameter("id", Id);
 
             Employee employee = (Employee) query.uniqueResult();
 
@@ -66,12 +66,12 @@ public class EmployeeDao {
             transaction.commit();
             session.close();
 
-            return true;
+            return employee;
 
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return false;
+        return null;
     }
 
 
@@ -164,9 +164,11 @@ public class EmployeeDao {
             query.setParameter("Id", Id);
 
             employee = (Employee) query.uniqueResult();
+            EmployeeDao employeeDao = new EmployeeDao();
+            Employee employee1 = employeeDao.findEmployeeId(Id);
 
 
-            if ((findEmployeeId(Id))==true){
+            if (employee1 !=null){
 
 
                 session.update(employee);

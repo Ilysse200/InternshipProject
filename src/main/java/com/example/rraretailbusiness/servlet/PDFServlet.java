@@ -48,7 +48,11 @@ public class PDFServlet extends HttpServlet {
                 ItemDao itemDao = new ItemDao();
                 List<Item> itemList = itemDao.displayAllEmployees();
 
+                int sizeSales = salesList.size();
+
+                float yPosition = 700;  // Starting Y position
                 contentStream.beginText();
+//                for(int i=0; i< sizeSales; i++){
                 for (Sales sales : salesList) {
                     contentStream.newLineAtOffset(100, 700);
 
@@ -58,68 +62,67 @@ public class PDFServlet extends HttpServlet {
                     contentStream.newLineAtOffset(0, -leading);
                     contentStream.showText("Sales was made on : " + sales.getSalesDate());
                     contentStream.newLineAtOffset(0, -leading);
-                    contentStream.newLineAtOffset(0, -leading);; // Add space between sales entries // Add space between sales entries
-                }
-                contentStream.newLine();
-                contentStream.showText("--------------------------------------------------------");
-                contentStream.newLineAtOffset(0, -leading);
+                    contentStream.newLineAtOffset(0, -2 * leading);
+                    ; // Add space between sales entries // Add space between sales entries
 
-               // Display Purchase data
-                contentStream.showText("Purchase Data:");
-                for (Purchase purchase : purchases) {
-                    contentStream.newLineAtOffset(0, -leading);
-                    contentStream.showText("Purchase ID: " + purchase.getPurchaseId());
-                    contentStream.newLineAtOffset(0, -leading); // Move to the next line with appropriate spacing
-                    contentStream.showText("Purchase Date: " + purchase.getPurchaseDate());
-                    // Move to the next line with appropriate spacing
-                    contentStream.newLineAtOffset(0, -leading);
+                    // Move to the next section
+                    yPosition -= 4 * leading;
 
-                }
-                contentStream.newLine();
-                contentStream.showText("--------------------------------------------------------");
-                contentStream.newLineAtOffset(0, -leading);
-
-                //Display Items
-                contentStream.showText("Item Information");
-                Long quantity = 0L;
-                Long vatItem = 0L;
-                Long price = 0L;
-                Long vat = 0L;
-
-                for(Item item:itemList){
-                    if("box".equals(item.getItemMeasure())){
-                        quantity = 5L;
-                        System.out.println("Item Unit: " + item.getItemUnit());
-                        System.out.println("Item Measure: " + item.getItemMeasure());
-                        price = 0L + (Long.valueOf(item.getItemUnit()) * quantity);
-                        vat = (long) (0.18 * price);
-                        vatItem = vat + price;
+                    // Display Purchase data
+                    contentStream.showText("Purchase Data:");
+                    for (Purchase purchase : purchases) {
                         contentStream.newLineAtOffset(0, -leading);
-
-                    }
-                    else if("pack".equals(item.getItemMeasure())){
-                        quantity = 10L;
-                        System.out.println("Item Unit: " + item.getItemUnit());
-                        System.out.println("Item Measure: " + item.getItemMeasure());
-                        price = 0L + (Long.valueOf(item.getItemUnit()) * quantity);
-                        vat = (long) (0.18 * price);
-                        vatItem = vat + price;
+                        contentStream.showText("Purchase ID: " + purchase.getPurchaseId());
+                        contentStream.newLineAtOffset(0, -leading); // Move to the next line with appropriate spacing
+                        contentStream.showText("Purchase Date: " + purchase.getPurchaseDate());
                         // Move to the next line with appropriate spacing
-                        contentStream.newLineAtOffset(0, -leading);
+                        contentStream.newLineAtOffset(0, -2 * leading);
 
                     }
+                    // Move to the next section
+                    yPosition -= 4 * leading;
 
+                    //Display Items
+                    contentStream.showText("Item Information");
+                    Long quantity = 0L;
+                    Long vatItem = 0L;
+                    Long price = 0L;
+                    Long vat = 0L;
+
+                    for (Item item : itemList) {
+                        if ("box".equals(item.getItemMeasure())) {
+                            quantity = 5L;
+                            System.out.println("Item Unit: " + item.getItemUnit());
+                            System.out.println("Item Measure: " + item.getItemMeasure());
+                            price = 0L + (Long.valueOf(item.getItemUnit()) * quantity);
+                            vat = (long) (0.18 * price);
+                            vatItem = vat + price;
+                            contentStream.newLineAtOffset(0, -leading);
+
+                        } else if ("pack".equals(item.getItemMeasure())) {
+                            quantity = 10L;
+                            System.out.println("Item Unit: " + item.getItemUnit());
+                            System.out.println("Item Measure: " + item.getItemMeasure());
+                            price = 0L + (Long.valueOf(item.getItemUnit()) * quantity);
+                            vat = (long) (0.18 * price);
+                            vatItem = vat + price;
+                            // Move to the next line with appropriate spacing
+                            contentStream.newLineAtOffset(0, -leading);
+
+                        }
+
+                        contentStream.newLine();
+
+                    }
+                    // Move to the next section
+                    yPosition -= 4 * leading;
+
+                    contentStream.showText("Total tax: " + vatItem);
                     contentStream.newLine();
 
                 }
-                contentStream.newLine();
-                contentStream.showText("--------------------------------------------------------");
-                contentStream.newLineAtOffset(0, -leading);
-
-                contentStream.showText("Total tax: " + vatItem);
-                contentStream.newLine();
-
             }
+
 
             // Save the document to the response output stream
             document.save(response.getOutputStream());

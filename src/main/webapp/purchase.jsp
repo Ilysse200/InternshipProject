@@ -34,25 +34,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="suppliers" class="form-label">Suppliers</label>
-                            <select class="form-select" name="purchaseSupplier" id="suppliers" required>
-                                <%
-                                    // Fetch suppliers from the database using the DAO
-                                    SupplierDao supplierDao = new SupplierDao();
-                                    List<Supplier> suppliers = supplierDao.displayAllSuppliers();
-
-                                    // Iterate over the suppliers and generate <option> elements
-                                    for (Supplier supplier : suppliers) {
-                                %>
-                                <option value="<%= supplier.getSupplierId() %>"><%= supplier.getSupplierName() %></option>
-                                <%
-                                    }
-                                %>
-                            </select>
+                            <input type="number" name="supplierId" class="form-control" id="suppliers" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="items" class="form-label">Items</label>
-                            <select class="form-select" name="items" id="items" required>
+                            <label for="itemNames" class="form-label">Items</label>
+                            <select class="form-select" name="itemList" id="itemNames" required>
                                 <%
                                     // Fetch items from the database using the DAO
                                     ItemDao itemDao = new ItemDao();
@@ -66,24 +53,56 @@
                                     }
                                 %>
                             </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="employee" class="form-label">Employee</label>
-                            <select class="form-select" name="empPurchase" id="employee" required>
+                            <label for="itemQuantity" class="form-label">Item Quanity</label>
+                            <select class="form-select" name="itemList" id="itemQuantity" required>
                                 <%
-                                    // Fetch employees from the database using the DAO
-                                    EmployeeDao employeeDao = new EmployeeDao();
-                                    List<Employee> employees = employeeDao.displayAllEmployees();
+                                    // Fetch items from the database using the DAO
+                                    ItemDao itemDao1 = new ItemDao();
+                                    List<Item> itemList = itemDao.displayAllEmployees();
 
-                                    // Iterate over the employees and generate <option> elements
-                                    for (Employee employee : employees) {
+                                    // Iterate over the items and generate <option> elements
+                                    for (Item item : items) {
                                 %>
-                                <option value="<%= employee.getEmpID() %>"><%= employee.getEmpFirstName() %></option>
+                                <option value="<%= item.getItemCode() %>"><%= item.getItemMeasure() %></option>
                                 <%
                                     }
                                 %>
                             </select>
+                            <label for="itemsUnitPrices" class="form-label">ItemPrices</label>
+                            <select class="form-select" name="itemList" id="itemsUnitPrices" required>
+                                <%
+                                    // Fetch items from the database using the DAO
+                                    ItemDao itemDao2 = new ItemDao();
+                                    List<Item> itemList1 = itemDao.displayAllEmployees();
+
+                                    // Iterate over the items and generate <option> elements
+                                    for (Item item : itemList1) {
+                                %>
+                                <option value="<%= item.getItemCode() %>"><%= item.getItemUnit() %></option>
+                                <%
+                                    }
+                                %>
+                            </select>
+                        </div>
+
+<%--                        <div class="tab tab-1">--%>
+<%--                        <table id ="table" border="1">--%>
+<%--                            <tr>--%>
+<%--                                <th>ItemFlow date</th>--%>
+<%--                                <th>Item Name</th>--%>
+<%--                                <th>ItemFlow Sale</th>--%>
+
+<%--                            </tr>--%>
+<%--                        </table>--%>
+<%--                            <div class="tab">--%>
+<%--                                ItemFlow date: <input type="date" name="">--%>
+<%--                            </div>--%>
+                        <button id="addItemButton" name="submitButton">Add Item</button>
+
+
+                        <div class="mb-3">
+                            <label for="employee" class="form-label">Employee</label>
+                            <input type="number" name="empPurchase" class="form-control" id="employee" required>
                         </div>
                         <button type="submit" class="btn btn-primary col-md-12">Register</button>
                     </form>
@@ -94,5 +113,48 @@
     </div>
 </div>
 </div>
+<!-- ... existing code ... -->
+
+
+
+<!-- ... existing code ... -->
+
+<%--<script>--%>
+<%--    function saveItems() {--%>
+<%--        // Get selected item details--%>
+<%--        var selectedItemCode = document.getElementById("itemNames").value;--%>
+<%--        var selectedItemQuantity = document.getElementById("itemQuantity").value;--%>
+<%--        var selectedItemUnitPrice = document.getElementById("itemsUnitPrices").value;--%>
+
+<%--        // Create hidden input fields to store the selected item details--%>
+<%--        var itemCodeInput = document.createElement("input");--%>
+<%--        itemCodeInput.setAttribute("type", "hidden");--%>
+<%--        itemCodeInput.setAttribute("name", "selectedItemCode");--%>
+<%--        itemCodeInput.setAttribute("value", selectedItemCode);--%>
+
+<%--        var itemQuantityInput = document.createElement("input");--%>
+<%--        itemQuantityInput.setAttribute("type", "hidden");--%>
+<%--        itemQuantityInput.setAttribute("name", "selectedItemsQuantity");--%>
+<%--        itemQuantityInput.setAttribute("value", selectedItemQuantity);--%>
+
+<%--        var itemUnitPriceInput = document.createElement("input");--%>
+<%--        itemUnitPriceInput.setAttribute("type", "hidden");--%>
+<%--        itemUnitPriceInput.setAttribute("name", "selectedItemsUnitPrice");--%>
+<%--        itemUnitPriceInput.setAttribute("value", selectedItemUnitPrice);--%>
+
+<%--        // Append the hidden input fields to the form--%>
+<%--        document.forms[0].appendChild(itemCodeInput);--%>
+<%--        document.forms[0].appendChild(itemQuantityInput);--%>
+<%--        document.forms[0].appendChild(itemUnitPriceInput);--%>
+
+<%--        // Optionally, you can also display a message or perform additional actions--%>
+
+<%--        // Submit the form--%>
+<%--        document.forms[0].submit();--%>
+<%--    }--%>
+<%--</script>--%>
+
+<!-- ... existing code ... -->
+
 </body>
 </html>

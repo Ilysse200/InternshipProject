@@ -8,7 +8,7 @@ public interface ItemService {
 
     String saveItem(Item item) ;
     List<Item> displayAllItems();
-    boolean findItemId(Long Id);
+    Item findItemId(Long Id);
     boolean deleteItem(Long Id);
     boolean UpdateItem(Item item, Long Id);
 }
