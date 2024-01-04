@@ -127,33 +127,33 @@
     </div>
 </div>
 </div>
-<script>
-    function showItemDetails() {
-        var selectedItemCode = document.getElementById("items").value;
-        var url = "/getItemDetails?itemCode=" + selectedItemCode;
+<%--<script>--%>
+<%--    function showItemDetails() {--%>
+<%--        var selectedItemCode = document.getElementById("items").value;--%>
+<%--        var url = "/getItemDetails?itemCode=" + selectedItemCode;--%>
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                displayItemDetails(data);
-            })
-            .catch(error => console.error('Error:', error));
-    }
+<%--        fetch(url)--%>
+<%--            .then(response => response.json())--%>
+<%--            .then(data => {--%>
+<%--                displayItemDetails(data);--%>
+<%--            })--%>
+<%--            .catch(error => console.error('Error:', error));--%>
+<%--    }--%>
 
-    function displayItemDetails(itemDetails) {
-        var tableBody = document.getElementById("itemDetailsBody");
-        tableBody.innerHTML = "";
+<%--    function displayItemDetails(itemDetails) {--%>
+<%--        var tableBody = document.getElementById("itemDetailsBody");--%>
+<%--        tableBody.innerHTML = "";--%>
 
-        var newRow = tableBody.insertRow(0);
-        var cell1 = newRow.insertCell(0);
-        var cell2 = newRow.insertCell(1);
+<%--        var newRow = tableBody.insertRow(0);--%>
+<%--        var cell1 = newRow.insertCell(0);--%>
+<%--        var cell2 = newRow.insertCell(1);--%>
 
-        cell1.innerHTML = itemDetails.itemCode;
-        cell2.innerHTML = itemDetails.itemName;
+<%--        cell1.innerHTML = itemDetails.itemCode;--%>
+<%--        cell2.innerHTML = itemDetails.itemName;--%>
 
-        document.getElementById("itemDetailsTable").style.display = "block";
-    }
-</script>
+<%--        document.getElementById("itemDetailsTable").style.display = "block";--%>
+<%--    }--%>
+<%--</script>--%>
 </body>
 </html>
 

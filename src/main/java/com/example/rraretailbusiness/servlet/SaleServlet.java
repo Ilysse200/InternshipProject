@@ -26,8 +26,12 @@ public class SaleServlet extends HttpServlet {
         EmployeeDao employeeDao = new EmployeeDao();
 
         String dateSales = req.getParameter("salesDate");
+
+        String clickButton = req.getParameter("addButton");
+
         List<Customer> customers= customerDao.displayAllCustomers() ;
         req.setAttribute("customers", customers);
+
         List<Item> items= itemDao.displayAllEmployees();
         req.setAttribute("items", items);
 
@@ -36,13 +40,13 @@ public class SaleServlet extends HttpServlet {
 
 
 
-        if(dateSales !=null && !dateSales.isEmpty()) {
+        if(dateSales !=null && !dateSales.isEmpty() && LocalDate.parse(dateSales) != LocalDate.now()) {
+            System.out.println(LocalDate.now());
             LocalDate sale = LocalDate.parse(dateSales);
             Sales sales = new Sales();
             sales.setSalesDate(sale);
 
 
-            // Assuming you want to associate the first employee from the list with the sales
             Customer customer = new Customer();
             for(Customer customer1: customers){
                 if(customer1 !=null){
@@ -51,6 +55,26 @@ public class SaleServlet extends HttpServlet {
 
             }
             sales.setCustomer(customer);
+
+            if(clickButton !=null){
+                ItemFlow itemFlow = new ItemFlow();
+
+                ItemFlowDao itemFlowDao = new ItemFlowDao();
+                for(Item item: items){
+                    if(item !=null){
+                        itemFlow.setItemList(item);
+                        itemFlow.setStatus("OUT");
+                        itemFlow.setPurchasesItemFlow(null);
+                        itemFlow.setItemFlowDate(sale);
+                        itemFlow.setItemFlowsalesID(sales);
+
+
+                        //Save the itemFLow
+                        itemFlowDao.saveItemFlow(itemFlow);
+                    }
+                }
+
+            }
 
 
 
