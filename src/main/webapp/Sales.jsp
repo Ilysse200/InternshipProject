@@ -48,45 +48,59 @@
                                 %>
                             </select>
                         </div>
-
                         <div class="mb-3">
-                            <div class="tab tab-1">
-                                <table id="table" border="3" cellpadding="5" cellspacing="0">
-                                    <tr>
-                                        <th>Item Name</th>
-                                        <th>Item Quantity</th>
-                                        <th>Item Price</th>
-                                    </tr>
-                                </table>
-                            </div>
-                                <div class="tab">
-                                    Item Name : <input type="text" name="itemname" id="item"><br>
-                                    Item Quantity : <input type="text" name="itemquantity" id="itemnumber"><br>
-                                    Item Price : <input type="text" name="itemname" id="itemPrice"><br>
+                            <label for="itemNames" class="form-label">Items</label>
+                            <select class="form-select" name="itemList" id="itemNames" required>
+                                <%
+                                    // Fetch items from the database using the DAO
+                                    ItemDao itemDao = new ItemDao();
+                                    List<Item> items = itemDao.displayAllEmployees();
 
-                                    <button>Save</button>
-                                </div>
-<%--                            </div>--%>
-<%--                             <button id="addItemButton" onclick="showItemDetails()">Add Item</button>--%>
-<%--                        </div>--%>
-
-
-
-                        <div id="itemDetailsTable" style="display: none;">
-                            <h3>Item Details</h3>
-                            <table border="1">
-                                <thead>
-                                <tr>
-                                    <th>Item Code</th>
-                                    <th>Item Name</th>
-                                    <!-- Add more columns as needed for item details -->
-                                </tr>
-                                </thead>
-                                <tbody id="itemDetailsBody">
-                                <!-- Item details will be displayed here dynamically -->
-                                </tbody>
-                            </table>
+                                    // Iterate over the items and generate <option> elements
+                                    for (Item item : items) {
+                                %>
+                                <option value="<%= item.getItemCode() %>"><%= item.getItemName() %></option>
+                                <%
+                                    }
+                                %>
+                            </select>
                         </div>
+                        <div>
+                            <label for="itemQuantity" class="form-label">Item Quanity</label>
+                            <select class="form-select" name="itemList" id="itemQuantity" required>
+                                <%
+                                    // Fetch items from the database using the DAO
+                                    ItemDao itemDao1 = new ItemDao();
+                                    List<Item> itemList = itemDao.displayAllEmployees();
+
+                                    // Iterate over the items and generate <option> elements
+                                    for (Item item : items) {
+                                %>
+                                <option value="<%= item.getItemCode() %>"><%= item.getItemMeasure() %></option>
+                                <%
+                                    }
+                                %>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="itemsUnitPrices" class="form-label">ItemPrices</label>
+                            <select class="form-select" name="itemList" id="itemsUnitPrices" required>
+                                <%
+                                    // Fetch items from the database using the DAO
+                                    ItemDao itemDao2 = new ItemDao();
+                                    List<Item> itemList1 = itemDao.displayAllEmployees();
+
+                                    // Iterate over the items and generate <option> elements
+                                    for (Item item : itemList1) {
+                                %>
+                                <option value="<%= item.getItemCode() %>"><%= item.getItemUnit() %></option>
+                                <%
+                                    }
+                                %>
+                            </select>
+                        </div>
+                        <button id="addItemButton" name="addButton">Add Item</button>
+
                         <div class="mb-3">
                             <label for="employee" class="form-label">Employee</label>
                             <select class="form-select" name="empPurchase" id="employee" required>
