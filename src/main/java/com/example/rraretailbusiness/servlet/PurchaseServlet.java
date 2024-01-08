@@ -32,7 +32,12 @@ public class PurchaseServlet extends HttpServlet {
             int sizeofArray;
 
 
-            String tableRetriever[] = req.getParameterValues("tableData");
+            // Retrieve the JSON string from the request parameter
+            String jsonTableData = req.getParameter("tableData");
+
+            // Use Jackson ObjectMapper to convert the JSON string to a Java array
+            ObjectMapper objectMapper = new ObjectMapper();
+            String[] javaArray = objectMapper.readValue(jsonTableData, String[].class);
 
             ItemDao itemDao = new ItemDao();
             Item item = new Item();
@@ -93,21 +98,23 @@ public class PurchaseServlet extends HttpServlet {
             //Create a list of itemFlows
             List<ItemFlow> itemFlows = new ArrayList<>();
 
-                for(Item item1: items){
-                    for(int count = 0; count < tableRetriever.length; count++) {
+                for(Item item1: items) {
+                    for (int count = 0; count < javaArray.length; count++) {
                         System.out.println("item1.getItemName(): " + item1.getItemName());
-                        System.out.println("names: " + tableRetriever[count]);
+                        System.out.println("names: " + javaArray[count]);
+                        if (item1.getItemName().equals(javaArray[count])) {
                             ItemFlow itemFlow = new ItemFlow();
                             itemFlow.setItemFlowsalesID(null);
                             itemFlow.setPurchasesItemFlow(purchase);
                             itemFlow.setStatus("IN");
                             itemFlow.setItemList(item1);
-                            itemFlow.setItemFlowDate(purchaseDate);
                             itemFlows.add(itemFlow);
+                            itemFlow.setItemFlowDate(purchaseDate);
                             break;
 
                         }
                     }
+                }
 //                    return;
 
                 //print the number of itemFlows

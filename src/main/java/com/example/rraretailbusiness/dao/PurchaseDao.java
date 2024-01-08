@@ -1,5 +1,6 @@
 package com.example.rraretailbusiness.dao;
 
+import com.example.rraretailbusiness.domain.Item;
 import com.example.rraretailbusiness.domain.Purchase;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -65,6 +66,7 @@ public class PurchaseDao {
         }
         return false;
     }
+
 
     public boolean deletePurchase(Long id){
         try{

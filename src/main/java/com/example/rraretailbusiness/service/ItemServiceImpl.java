@@ -32,4 +32,9 @@ public class ItemServiceImpl implements ItemService{
     public boolean UpdateItem(Item item, Long Id) {
         return dao.UpdateItem(item, Id);
     }
+
+    @Override
+    public Item findItemByName(String name) {
+        return dao.findItemByName(name);
+    }
 }

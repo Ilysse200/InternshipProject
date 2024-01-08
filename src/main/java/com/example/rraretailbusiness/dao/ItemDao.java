@@ -44,6 +44,25 @@ public class ItemDao {
         return null;
     }
 
+    public Item findItemByName(String itemName) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // Use HQL (Hibernate Query Language) to retrieve the item by name
+            String hql = "FROM Item WHERE itemName = :itemName";
+            Query<Item> query = session.createQuery(hql, Item.class);
+            query.setParameter("itemName", itemName);
+
+            List<Item> items = query.getResultList();
+
+            // Check if the item was found
+            if (!items.isEmpty()) {
+                return items.get(0); // Assuming itemName is unique
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; // Return null if the item is not found or an error occurs
+    }
+
     //This method will help us to check whether the employee exists
     public Item findItemId(Long Id){
 

@@ -11,4 +11,6 @@ public interface ItemService {
     Item findItemId(Long Id);
     boolean deleteItem(Long Id);
     boolean UpdateItem(Item item, Long Id);
+
+    Item findItemByName(String name);
 }
