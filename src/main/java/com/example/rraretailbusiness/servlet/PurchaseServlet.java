@@ -2,6 +2,7 @@ package com.example.rraretailbusiness.servlet;
 
 import com.example.rraretailbusiness.dao.*;
 import com.example.rraretailbusiness.domain.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -25,13 +27,22 @@ public class PurchaseServlet extends HttpServlet {
             String datePurchase = req.getParameter("purchaseDate");
             String supplierId = req.getParameter("supplierId");
             String empPurchaseId = req.getParameter("empPurchase");
-            String buttonClick = req.getParameter("submitButton");
+//          String buttonClick = req.getParameter("submitButton");
 
-//            String selectedItem = req.getParameter("itemList");
-
-
+            int sizeofArray;
 
 
+            String tableRetriever[] = req.getParameterValues("tableData");
+
+            ItemDao itemDao = new ItemDao();
+            Item item = new Item();
+
+            //Create a list of all items
+            List<Item> items = itemDao.displayAllEmployees();
+
+            ItemFlowDao itemFlowDao = new ItemFlowDao();
+
+//          String selectedItem = req.getParameter("itemList");
 
 
             // Validate parameters
@@ -78,44 +89,41 @@ public class PurchaseServlet extends HttpServlet {
             purchaseDao.savePurchase(purchase);
             System.out.println("Purchase record is " + purchase.getPurchaseId() + purchase.getSupplierId() + purchase.getEmpPurchase());
 
-            // Check whether the button was clicked
-            if (buttonClick != null) {
 
-                // Save multiple items in the itemFlow table
+            //Create a list of itemFlows
+            List<ItemFlow> itemFlows = new ArrayList<>();
 
-                Item item = new Item();
+                for(Item item1: items){
+                    for(int count = 0; count < tableRetriever.length; count++) {
+                        System.out.println("item1.getItemName(): " + item1.getItemName());
+                        System.out.println("names: " + tableRetriever[count]);
+                            ItemFlow itemFlow = new ItemFlow();
+                            itemFlow.setItemFlowsalesID(null);
+                            itemFlow.setPurchasesItemFlow(purchase);
+                            itemFlow.setStatus("IN");
+                            itemFlow.setItemList(item1);
+                            itemFlow.setItemFlowDate(purchaseDate);
+                            itemFlows.add(itemFlow);
+                            break;
 
-                ItemFlowDao itemFlowDao = new ItemFlowDao();
-
-
-                ItemDao itemDao = new ItemDao();
-
-                //create an item List
-                List<Item> items = itemDao.displayAllEmployees();
-                req.setAttribute("itemName", items);
-                for (Item item1 : items) {
-                    if (item1 != null) {
-                        ItemFlow itemFlow = new ItemFlow();
-                        itemFlow.setStatus("IN");
-                        itemFlow.setItemFlowsalesID(null);
-                        itemFlow.setItemList(item1);
-                        itemFlow.setPurchasesItemFlow(purchase);
-                        itemFlow.setItemFlowDate(purchaseDate);
-
-
-                        //save the itemFlow
-                        itemFlowDao.saveItemFlow(itemFlow);
+                        }
                     }
+//                    return;
 
-                }
+                //print the number of itemFlows
+            System.out.println("Number of itemFlows: " + itemFlows.size());
+
+
+            //Save the itemFlows
+            ItemFlowDao dao = new ItemFlowDao();
+            for(ItemFlow itemFlow: itemFlows){
+                dao.saveItemFlow(itemFlow);
+                System.out.println("Number of itemFlows: " + itemFlows.size());
+
             }
 
 
-
-
-
-            // Redirect to a success page
-            resp.sendRedirect(req.getContextPath() + "/Home.jsp");
+           resp.sendRedirect(req.getContextPath() + "/Home.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();

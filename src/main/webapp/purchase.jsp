@@ -193,11 +193,8 @@ function onButtonSubmit(event){
     event.preventDefault();
     var formData = readFormData();
     if(selectedRow === null){
-        count = document.getElementById("countInput").value;
 
         insertNewRecord(formData);
-        count++;
-        console.log(count);
     }
     else{
         updateRecord(formData);
@@ -229,11 +226,7 @@ function insertNewRecord(data){
         cell3.innerHTML = data.itemsUnitPrices;
 
     // Store the data in the array
-    tableData.push({
-        itemName: data.itemNames,
-        itemQuantity: data.itemQuantity,
-        itemUnitPrice: data.itemsUnitPrices
-    });
+    tableData.push(data.itemNames);
 
     // Update the hidden input with the tableData
     updateHiddenInput();
@@ -241,13 +234,18 @@ function insertNewRecord(data){
 }
 // Update existing record
 function updateRecord(formData) {
-        var table = document.getElementById("storeList").getElementsByTagName('tbody')[0];
-        var cells = selectedRow.cells;
-        cells[0].innerHTML = formData.itemNames;
-        cells[1].innerHTML = formData.itemQuantity;
-        cells[2].innerHTML = formData.itemsUnitPrices;
-        selectedRow = null; // Clear the selectedRow after update
-    }
+    var table = document.getElementById("storeList").getElementsByTagName('tbody')[0];
+    var cells = selectedRow.cells;
+    cells[0].innerHTML = formData.itemNames;
+    cells[1].innerHTML = formData.itemQuantity;
+    cells[2].innerHTML = formData.itemsUnitPrices;
+    selectedRow = null; // Clear the selectedRow after update
+}
+
+function updateHiddenInput() {
+        document.getElementById("tableDataInput").value = JSON.stringify(tableData);
+}
+
 
 </script>
 
