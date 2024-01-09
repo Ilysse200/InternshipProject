@@ -31,6 +31,7 @@
                             </div>
                             </div>
                             <button type="submit" class="btn btn-primary col-md-12">Login</button>
+                            <a href="index.jsp">Don't Have an account? Register</a>
                         </form>
                     </div>
             </div>

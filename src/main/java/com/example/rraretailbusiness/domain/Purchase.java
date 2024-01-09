@@ -29,9 +29,6 @@ public class Purchase {
     private Supplier supplierId;
 
 
-
-
-
     @OneToOne
     @JoinColumn(name = "employeeIdentifier")
     private Employee empPurchase;

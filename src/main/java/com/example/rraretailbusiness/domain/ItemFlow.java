@@ -21,17 +21,22 @@ public class ItemFlow {
     private Long itemFlowId;
     private LocalDate itemFlowDate;
 
-    @OneToOne
-    private Purchase purchasesItemFlow;
 
     @Column(name = "status")
     private String status;
-    @OneToOne
-    private Sales ItemFlowsalesID;
+
 
 
     @OneToOne
     private Item itemList;
+
+    private  int quantity;
+
+    private int unitPrice;
+
+    private int totalPrice;
+
+    private int quantityAvailable;
 
 
     //This is an empty constructor
@@ -39,47 +44,37 @@ public class ItemFlow {
     }
 
 
+
     //Parameterized constructor that facilitate the creation of objects
-    public ItemFlow(Long itemFlowId, LocalDate itemFlowDate, Purchase purchasesItemFlow, Sales itemFlowsalesID, Item itemList) {
+
+
+    public ItemFlow(Long itemFlowId, LocalDate itemFlowDate, String status, Item itemList, int quantity, int unitPrice, int totalPrice, int quantityAvailable) {
         this.itemFlowId = itemFlowId;
         this.itemFlowDate = itemFlowDate;
-        this.purchasesItemFlow = purchasesItemFlow;
-        this.ItemFlowsalesID = itemFlowsalesID;
+        this.status = status;
         this.itemList = itemList;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+        this.quantityAvailable = quantityAvailable;
     }
 
-    public ItemFlow(LocalDate itemFlowDate, Purchase purchasesItemFlow, Sales itemFlowsalesID, Item itemList) {
+    public ItemFlow(LocalDate itemFlowDate, String status, Item itemList, int quantity, int unitPrice, int totalPrice, int quantityAvailable) {
         this.itemFlowDate = itemFlowDate;
-        this.purchasesItemFlow = purchasesItemFlow;
-        ItemFlowsalesID = itemFlowsalesID;
+        this.status = status;
         this.itemList = itemList;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+        this.quantityAvailable = quantityAvailable;
     }
 
-    public ItemFlow(LocalDate itemFlowDate, Purchase purchasesItemFlow, String status, Item itemList) {
+    public ItemFlow(LocalDate itemFlowDate, String status, Item itemList) {
         this.itemFlowDate = itemFlowDate;
-        this.purchasesItemFlow = purchasesItemFlow;
         this.status = status;
         this.itemList = itemList;
     }
 
-    public ItemFlow(LocalDate itemFlowDate, String status, Sales itemFlowsalesID, Item itemList) {
-        this.itemFlowDate = itemFlowDate;
-        this.status = status;
-        ItemFlowsalesID = itemFlowsalesID;
-        this.itemList = itemList;
-    }
-
-    public ItemFlow(LocalDate itemFlowDate, Purchase purchasesItemFlow, Item itemList) {
-        this.itemFlowDate = itemFlowDate;
-        this.purchasesItemFlow = purchasesItemFlow;
-        this.itemList = itemList;
-    }
-
-    public ItemFlow(LocalDate itemFlowDate, Sales itemFlowsalesID, Item itemList) {
-        this.itemFlowDate = itemFlowDate;
-        ItemFlowsalesID = itemFlowsalesID;
-        this.itemList = itemList;
-    }
     /*
          The following below are getters and setters, they help us modify the variables of a class.
          Every column or field of the class ItemFlow has got setters except the itemFlowId, so that
@@ -88,6 +83,10 @@ public class ItemFlow {
 
     public String getStatus() {
         return status;
+    }
+
+    public int getQuantityAvailable() {
+        return quantityAvailable;
     }
 
     public void setStatus(String status) {
@@ -102,12 +101,16 @@ public class ItemFlow {
         return itemFlowDate;
     }
 
-    public Purchase getPurchasesItemFlow() {
-        return purchasesItemFlow;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public Sales getItemFlowsalesID() {
-        return ItemFlowsalesID;
+    public int getUnitPrice() {
+        return unitPrice;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
     public Item getItemList() {
@@ -119,12 +122,20 @@ public class ItemFlow {
         this.itemFlowDate = itemFlowDate;
     }
 
-    public void setPurchasesItemFlow(Purchase purchasesItemFlow) {
-        this.purchasesItemFlow = purchasesItemFlow;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public void setItemFlowsalesID(Sales itemFlowsalesID) {
-        ItemFlowsalesID = itemFlowsalesID;
+    public void setQuantityAvailable(int quantityAvailable) {
+        this.quantityAvailable = quantityAvailable;
+    }
+
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public void setItemList(Item itemList) {

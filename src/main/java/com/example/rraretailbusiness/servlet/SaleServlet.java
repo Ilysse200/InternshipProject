@@ -64,9 +64,8 @@ public class SaleServlet extends HttpServlet {
                     if(item !=null){
                         itemFlow.setItemList(item);
                         itemFlow.setStatus("OUT");
-                        itemFlow.setPurchasesItemFlow(null);
                         itemFlow.setItemFlowDate(sale);
-                        itemFlow.setItemFlowsalesID(sales);
+
 
 
                         //Save the itemFLow

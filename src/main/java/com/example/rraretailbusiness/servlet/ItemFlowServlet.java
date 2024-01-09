@@ -58,31 +58,31 @@ public class ItemFlowServlet extends HttpServlet {
         itemFlow.setItemFlowDate(flowDate);
 
 
-        if (!itemFlowsalesID.isEmpty()) {
-            // Handle the case where there is at least one itemSales
-            itemFlow.setItemFlowsalesID(itemFlowsalesID.get(0));
-            itemFlow.setPurchasesItemFlow(null);
-            itemFlow.setItemList(item);
-            itemFlowDao.saveItemFlow(itemFlow);
-            return;
-        } else if (!purchasesItemFlow.isEmpty()) {
-            // Handle the case where there is at least one purchaseItem
-            itemFlow.setItemFlowsalesID(null);
-            itemFlow.setPurchasesItemFlow(purchasesItemFlow.get(0));
-            itemFlow.setItemList(item);
-            itemFlowDao.saveItemFlow(itemFlow);
-            return;
-        }
-
-        // Set the itemList (if needed)
-        else if (!itemList.isEmpty()) {
-            itemFlow.setItemList(itemList.get(0));
-        }
-        else {
-            // Handle the case where both lists are empty or any other specific logic
-            sendErrorMessage(resp, "No sales or purchases available");
+//        if (!itemFlowsalesID.isEmpty()) {
+//            // Handle the case where there is at least one itemSales
+//            itemFlow.setItemFlowsalesID(itemFlowsalesID.get(0));
+//            itemFlow.setPurchasesItemFlow(null);
+//            itemFlow.setItemList(item);
+//            itemFlowDao.saveItemFlow(itemFlow);
 //            return;
-        }
+//        } else if (!purchasesItemFlow.isEmpty()) {
+//            // Handle the case where there is at least one purchaseItem
+//            itemFlow.setItemFlowsalesID(null);
+//            itemFlow.setPurchasesItemFlow(purchasesItemFlow.get(0));
+//            itemFlow.setItemList(item);
+//            itemFlowDao.saveItemFlow(itemFlow);
+//            return;
+//        }
+//
+//        // Set the itemList (if needed)
+//        else if (!itemList.isEmpty()) {
+//            itemFlow.setItemList(itemList.get(0));
+//        }
+//        else {
+//            // Handle the case where both lists are empty or any other specific logic
+//            sendErrorMessage(resp, "No sales or purchases available");
+////            return;
+//        }
 
         // Save the itemFlow
         itemFlowDao.saveItemFlow(itemFlow);

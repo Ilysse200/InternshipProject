@@ -99,53 +99,43 @@
                         <table class="size">
                             <tr>
                                 <td>
-                                    <div class="mb-3">
-                                        <label for="itemNames" class="form-label">Items</label>
+                                    <div>
+                                        <label for="itemNames" class="form-label">Item Name</label>
                                         <select class="form-select" name="itemList" id="itemNames" required>
                                             <%
                                                 // Fetch items from the database using the DAO
                                                 ItemDao itemDao = new ItemDao();
-                                                List<Item> items = itemDao.displayAllEmployees();
-
-                                                // Iterate over the items and generate <option> elements
-                                                for (Item item : items) {
-                                            %>
-                                            <option value="<%= item.getItemCode() %>"><%= item.getItemName() %></option>
-                                            <%
-                                                }
-                                            %>
-                                        </select>
-                                        <label for="itemQuantity" class="form-label">Item Quantity</label>
-                                        <select class="form-select" name="itemList" id="itemQuantity" required>
-                                            <%
-                                                // Fetch items from the database using the DAO
-                                                ItemDao itemDao1 = new ItemDao();
-                                                List<Item> itemList = itemDao.displayAllEmployees();
-
-                                                // Iterate over the items and generate <option> elements
-                                                for (Item item : items) {
-                                            %>
-                                            <option value="<%= item.getItemCode() %>"><%= item.getItemMeasure() %></option>
-                                            <%
-                                                }
-                                            %>
-                                        </select>
-                                        <label for="itemsUnitPrices" class="form-label">ItemPrices</label>
-                                        <select class="form-select" name="itemList" id="itemsUnitPrices" required>
-                                            <%
-                                                // Fetch items from the database using the DAO
-                                                ItemDao itemDao2 = new ItemDao();
                                                 List<Item> itemList1 = itemDao.displayAllEmployees();
 
                                                 // Iterate over the items and generate <option> elements
                                                 for (Item item : itemList1) {
                                             %>
-                                            <option value="<%= item.getItemCode() %>"><%= item.getItemUnit() %></option>
+                                            <option value="<%= item.getItemCode() %>"><%= item.getItemName()%></option>
                                             <%
                                                 }
                                             %>
                                         </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="quantity" class="form-label">Item Quantity</label>
+                                        <input type="number" name="quantity" class="form-control" id="quantity" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="itemPrice" class="form-label">Item Price</label>
+                                        <input type="number" name="unitPrice" class="form-control" id="itemPrice" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="totalPrice" class="form-label">Item TotalPrice</label>
+                                        <input type="number" name="totalPrice" class="form-control" id="totalPrice" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="itemsLeft" class="form-label">Item Available</label>
+                                        <input type="number" name="quantityAvailable" class="form-control" id="itemsLeft" required>
+                                    </div>
+
                                     <div class="form_action--button">
                                         <!-- Add this input field inside your form -->
                                         <input type="hidden" id="tableDataInput" name="tableData" value="">
@@ -158,6 +148,8 @@
                                             <th>Item Name</th>
                                             <th>Item Quantity</th>
                                             <th>Item Price</th>
+                                            <th>Item TotalPrice</th>
+                                            <th>Item Available</th>
                                         </tr>
                                         </thead>
                                         <tbody>

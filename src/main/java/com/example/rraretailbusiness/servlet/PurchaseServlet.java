@@ -104,8 +104,6 @@ public class PurchaseServlet extends HttpServlet {
                         System.out.println("names: " + javaArray[count]);
                         if (item1.getItemName().equals(javaArray[count])) {
                             ItemFlow itemFlow = new ItemFlow();
-                            itemFlow.setItemFlowsalesID(null);
-                            itemFlow.setPurchasesItemFlow(purchase);
                             itemFlow.setStatus("IN");
                             itemFlow.setItemList(item1);
                             itemFlows.add(itemFlow);
