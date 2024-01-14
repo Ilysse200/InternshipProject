@@ -9,7 +9,7 @@ public interface CustomerService {
 
     String saveCustomer(Customer customer) ;
     List<Customer> displayAllEmployees();
-    boolean findCustomerId(Long Id);
+    Customer findCustomerId(Long Id);
     boolean deleteCustomer(Long Id);
     boolean UpdateCustomer( Customer customer, Long Id);
 }

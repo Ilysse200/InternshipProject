@@ -21,7 +21,7 @@ public class CustomerSeviceImpl implements CustomerService{
     }
 
     @Override
-    public boolean findCustomerId(Long Id) {
+    public Customer findCustomerId(Long Id) {
         return dao.findCustomerId(Id);
     }
 

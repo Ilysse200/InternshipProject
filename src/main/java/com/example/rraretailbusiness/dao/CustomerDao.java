@@ -43,7 +43,7 @@ public class CustomerDao {
     }
 
     //This method will help us to check whether the customer exists
-    public boolean findCustomerId(Long Id){
+    public Customer findCustomerId(Long Id){
 
         try{
 
@@ -51,7 +51,7 @@ public class CustomerDao {
             Transaction transaction = session.beginTransaction();
 
             Query query = session.createQuery("FROM Customer where customerId =:id");
-            query.setParameter("Id", Id);
+            query.setParameter("id", Id);
 
             Customer customer = (Customer) query.uniqueResult();
 
@@ -59,12 +59,12 @@ public class CustomerDao {
             transaction.commit();
             session.close();
 
-            return true;
+            return customer;
 
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     public boolean deleteCustomer(Long id){
@@ -135,7 +135,7 @@ public class CustomerDao {
             customer = (Customer) query.uniqueResult();
 
 
-            if ((findCustomerId(Id))==true){
+            if (customer !=null){
 
 
                 session.update(customer);
@@ -150,6 +150,7 @@ public class CustomerDao {
                 return false;
 
             }
+
 
 
         } catch (Exception ex) {
