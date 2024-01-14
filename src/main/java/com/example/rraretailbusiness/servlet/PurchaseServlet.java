@@ -113,38 +113,50 @@ public class PurchaseServlet extends HttpServlet {
             //Create a list of itemFlows
             List<ItemFlow> itemFlows = new ArrayList<>();
 
-            for(Item item1: items) {
+            for (Item item1 : items) {
+                boolean itemFound = false;
+
                 for (int count = 0; count < itemNamesArray.length; count++) {
                     System.out.println("item1.getItemName(): " + item1.getItemName());
                     System.out.println("names: " + itemNamesArray[count]);
                     int arrayIndex = count * 4;
-                    if (arrayIndex + 3 < javaArray.length) { // Ensure array bounds
-                        ItemFlow itemFlow = new ItemFlow();
-                        itemFlow.setStatus("IN");
-                        itemFlow.setQuantity(javaArray[arrayIndex]);
-                        itemFlow.setUnitPrice(javaArray[arrayIndex + 1]);
-                        itemFlow.setTotalPrice(javaArray[arrayIndex + 2]);
-                        itemFlow.setQuantityAvailable(javaArray[arrayIndex + 3]);
-                        itemFlow.setItemList(item1);
-                        itemFlows.add(itemFlow);
-                        itemFlow.setItemFlowDate(purchaseDate);
-                        break;
 
+                    if (arrayIndex + 3 < javaArray.length) { // Ensure array bounds
+                        if (item1.getItemName().equals(itemNamesArray[count])) {
+                            // Item found in the itemNamesArray
+                            itemFound = true;
+
+                            ItemFlow itemFlow = new ItemFlow();
+                            itemFlow.setStatus("IN");
+                            itemFlow.setQuantity(javaArray[arrayIndex]);
+                            itemFlow.setUnitPrice(javaArray[arrayIndex + 1]);
+                            itemFlow.setTotalPrice(javaArray[arrayIndex + 2]);
+                            itemFlow.setQuantityAvailable(javaArray[arrayIndex + 3]);
+                            itemFlow.setItemList(item1);
+                            itemFlow.setItemFlowDate(purchaseDate);
+                            itemFlows.add(itemFlow);
+
+                            // No need to check further for this item
+                            break;
+                        }
                     }
                 }
-            }
-//                    return;
 
-            //print the number of itemFlows
+                // Check if the item was not found in itemNamesArray
+                if (!itemFound) {
+                    // Handle the case when the item is not in the itemNamesArray
+                    System.out.println("Item not found in itemNamesArray for item: " + item1.getItemName());
+                }
+            }
+
+// Print the number of itemFlows
             System.out.println("Number of itemFlows: " + itemFlows.size());
 
-
-            //Save the itemFlows
+// Save the itemFlows
             ItemFlowDao dao = new ItemFlowDao();
-            for(ItemFlow itemFlow: itemFlows){
+            for (ItemFlow itemFlow : itemFlows) {
                 dao.saveItemFlow(itemFlow);
                 System.out.println("Number of itemFlows: " + itemFlows.size());
-
             }
 
 
