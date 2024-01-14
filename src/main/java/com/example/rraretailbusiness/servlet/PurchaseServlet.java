@@ -34,10 +34,23 @@ public class PurchaseServlet extends HttpServlet {
 
             // Retrieve the JSON string from the request parameter
             String jsonTableData = req.getParameter("tableData");
+            String jsonTableData1 = req.getParameter("itemNameData");
+            System.out.println("Received JSON data: " + jsonTableData);
 
-            // Use Jackson ObjectMapper to convert the JSON string to a Java array
+
+
+// Use Jackson ObjectMapper to convert the JSON string to a Java object
             ObjectMapper objectMapper = new ObjectMapper();
-            String[] javaArray = objectMapper.readValue(jsonTableData, String[].class);
+            Integer[] javaArray = objectMapper.readValue(jsonTableData, Integer[].class);
+            String[] itemNamesArray = objectMapper.readValue(jsonTableData1, String[].class);
+
+//            System.out.println("itemNames" + purchaseData.getItemNames());
+//            System.out.println("other items" +purchaseData.getOtherData());
+//
+//// Access the arrays in the Java object
+//            Integer[] otherDataArray = purchaseData.getOtherData();
+//            String[] itemNamesArray = purchaseData.getItemNames();
+
 
             ItemDao itemDao = new ItemDao();
             Item item = new Item();
@@ -70,7 +83,7 @@ public class PurchaseServlet extends HttpServlet {
             // Create and set Purchase object
             Purchase purchase = new Purchase();
             if(purchaseDate !=LocalDate.now())
-            purchase.setPurchaseDate(purchaseDate);
+                purchase.setPurchaseDate(purchaseDate);
 
             // Set Supplier and Employee for the Purchase
             SupplierDao supplierDao = new SupplierDao();
@@ -94,28 +107,35 @@ public class PurchaseServlet extends HttpServlet {
             purchaseDao.savePurchase(purchase);
             System.out.println("Purchase record is " + purchase.getPurchaseId() + purchase.getSupplierId() + purchase.getEmpPurchase());
 
+//            int sizeOfArray = itemNamesArray.length +
+
 
             //Create a list of itemFlows
             List<ItemFlow> itemFlows = new ArrayList<>();
 
-                for(Item item1: items) {
-                    for (int count = 0; count < javaArray.length; count++) {
-                        System.out.println("item1.getItemName(): " + item1.getItemName());
-                        System.out.println("names: " + javaArray[count]);
-                        if (item1.getItemName().equals(javaArray[count])) {
-                            ItemFlow itemFlow = new ItemFlow();
-                            itemFlow.setStatus("IN");
-                            itemFlow.setItemList(item1);
-                            itemFlows.add(itemFlow);
-                            itemFlow.setItemFlowDate(purchaseDate);
-                            break;
+            for(Item item1: items) {
+                for (int count = 0; count < itemNamesArray.length; count++) {
+                    System.out.println("item1.getItemName(): " + item1.getItemName());
+                    System.out.println("names: " + itemNamesArray[count]);
+                    int arrayIndex = count * 4;
+                    if (arrayIndex + 3 < javaArray.length) { // Ensure array bounds
+                        ItemFlow itemFlow = new ItemFlow();
+                        itemFlow.setStatus("IN");
+                        itemFlow.setQuantity(javaArray[arrayIndex]);
+                        itemFlow.setUnitPrice(javaArray[arrayIndex + 1]);
+                        itemFlow.setTotalPrice(javaArray[arrayIndex + 2]);
+                        itemFlow.setQuantityAvailable(javaArray[arrayIndex + 3]);
+                        itemFlow.setItemList(item1);
+                        itemFlows.add(itemFlow);
+                        itemFlow.setItemFlowDate(purchaseDate);
+                        break;
 
-                        }
                     }
                 }
+            }
 //                    return;
 
-                //print the number of itemFlows
+            //print the number of itemFlows
             System.out.println("Number of itemFlows: " + itemFlows.size());
 
 
@@ -128,7 +148,7 @@ public class PurchaseServlet extends HttpServlet {
             }
 
 
-           resp.sendRedirect(req.getContextPath() + "/Home.jsp");
+            resp.sendRedirect(req.getContextPath() + "/Home.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();

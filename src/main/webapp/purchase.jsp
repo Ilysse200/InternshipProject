@@ -139,6 +139,8 @@
                                     <div class="form_action--button">
                                         <!-- Add this input field inside your form -->
                                         <input type="hidden" id="tableDataInput" name="tableData" value="">
+                                        <input type="hidden" id="itemNameInput" name="itemNameData" value="">
+
                                         <button class="change" id="addItemButton" onclick="onButtonSubmit(event)">Add Item</button>
                                     </div>
                                     <td>
@@ -181,6 +183,8 @@
     var tableData=[]; //Array to store table data
     var selectedRow = null;
     var count = 0;
+    // Store item names in a separate array
+    var itemNamesArray = [];
 function onButtonSubmit(event){
     event.preventDefault();
     var formData = readFormData();
@@ -192,6 +196,8 @@ function onButtonSubmit(event){
         updateRecord(formData);
 
     }
+    updateHiddenInput(); // Update hidden fields before submitting
+    // document.forms[0].submit(); // Submit the form
     return false;
 
 }
@@ -200,46 +206,71 @@ function onButtonSubmit(event){
 function readFormData(){
     var formData = {};
     formData["itemNames"] = document.getElementById("itemNames").options[document.getElementById("itemNames").selectedIndex].text;
-    formData["itemQuantity"] = document.getElementById("itemQuantity").options[document.getElementById("itemQuantity").selectedIndex].text;
-    formData["itemsUnitPrices"] = document.getElementById("itemsUnitPrices").options[document.getElementById("itemsUnitPrices").selectedIndex].text;
+    formData["quantity"] = document.getElementById("quantity").value;
+    formData["itemPrice"] = document.getElementById("itemPrice").value;
+    formData["totalPrice"] = document.getElementById("totalPrice").value;
+    formData["itemsLeft"] = document.getElementById("itemsLeft").value;
     return formData;
 
 }
 
-// Insert data
+// insert data
+
 function insertNewRecord(data){
-    var table = document.getElementById("storeList").getElementsByTagName('tbody')[0];
-    var newRow = table.insertRow(table.length);
-    var cell1 = newRow.insertCell(0);
-        cell1.innerHTML = data.itemNames;
-    var cell2 = newRow.insertCell(1);
-        cell2.innerHTML = data.itemQuantity;
-    var cell3 = newRow.insertCell(2);
-        cell3.innerHTML = data.itemsUnitPrices;
 
-    // Store the data in the array
-    tableData.push(data.itemNames);
+        var table = document.getElementById("storeList").getElementsByTagName('tbody')[0];
+        var newRow = table.insertRow(table.length);
 
-    // Update the hidden input with the tableData
-    updateHiddenInput();
+        // Save item name in a variable
+        var itemName = data.itemNames;
 
-}
+        // Remove item name from data object
+        delete data.itemNames;
+
+        // Insert the item name into the first cell
+        var cell1 = newRow.insertCell(0);
+        cell1.innerHTML = itemName;
+
+        // Insert other data into subsequent cells
+        var cellIndex = 1;
+        for (var key in data) {
+            var cell = newRow.insertCell(cellIndex);
+            cell.innerHTML = data[key];
+            cellIndex++;
+        }
+
+        // Add the current itemName to the array
+        itemNamesArray.push(itemName);
+
+        // Store other data in the array
+        tableData.push(data.quantity, data.itemPrice, data.totalPrice, data.itemsLeft);
+
+        // // Merge both arrays into the main tableData array
+        // tableData.push(itemNameArray, otherDataArray);
+
+        // Update the hidden input with the tableData
+        updateHiddenInput();
+    }
+
 // Update existing record
 function updateRecord(formData) {
     var table = document.getElementById("storeList").getElementsByTagName('tbody')[0];
     var cells = selectedRow.cells;
     cells[0].innerHTML = formData.itemNames;
-    cells[1].innerHTML = formData.itemQuantity;
-    cells[2].innerHTML = formData.itemsUnitPrices;
+    cells[1].innerHTML = formData.quantity;
+    cells[2].innerHTML = formData.itemPrice;
+    cells[3].innerHTML = formData.totalPrice;
+    cells[4].innerHTML = formData.itemsLeft;
     selectedRow = null; // Clear the selectedRow after update
 }
 
 function updateHiddenInput() {
+        // Update the hidden input with both arrays
         document.getElementById("tableDataInput").value = JSON.stringify(tableData);
+        document.getElementById("itemNameInput").value = JSON.stringify(itemNamesArray);
 }
 
 
 </script>
-
 </body>
 </html>
