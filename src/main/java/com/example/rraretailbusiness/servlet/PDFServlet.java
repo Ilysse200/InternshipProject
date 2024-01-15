@@ -1,9 +1,11 @@
 package com.example.rraretailbusiness.servlet;
 
 import com.example.rraretailbusiness.dao.ItemDao;
+import com.example.rraretailbusiness.dao.ItemFlowDao;
 import com.example.rraretailbusiness.dao.PurchaseDao;
 import com.example.rraretailbusiness.dao.SalesDao;
 import com.example.rraretailbusiness.domain.Item;
+import com.example.rraretailbusiness.domain.ItemFlow;
 import com.example.rraretailbusiness.domain.Purchase;
 import com.example.rraretailbusiness.domain.Sales;
 import jakarta.servlet.ServletException;
@@ -48,19 +50,36 @@ public class PDFServlet extends HttpServlet {
                 ItemDao itemDao = new ItemDao();
                 List<Item> itemList = itemDao.displayAllEmployees();
 
+                ItemFlow itemFlow = new ItemFlow();
+                ItemFlowDao itemFlowDao = new ItemFlowDao();
+
+                List<ItemFlow> sales = itemFlowDao.displayAllEmployees();
+
                 int sizeSales = salesList.size();
 
                 float yPosition = 700;  // Starting Y position
                 contentStream.beginText();
 //                for(int i=0; i< sizeSales; i++){
-                for (Sales sales : salesList) {
+                for (ItemFlow itemFlow1 : sales) {
                     contentStream.newLineAtOffset(100, 700);
 
-                    contentStream.showText("Sales ID of: " + sales.getSalesID());
+                    contentStream.showText("Sales made on: " + itemFlow1.getItemFlowDate());
 
                     // Use the leading to move to the next line with appropriate spacing
                     contentStream.newLineAtOffset(0, -leading);
-                    contentStream.showText("Sales was made on : " + sales.getSalesDate());
+                    if ("OUT".equals(itemFlow1.getStatus())) {
+                        contentStream.showText("Item Sold: " + itemFlow1.getItemList().getItemName() +
+                                "For quantity: " + itemFlow1.getQuantity() + " Total price is : " +
+                                itemFlow1.getTotalPrice());
+                        contentStream.newLineAtOffset(0, -leading);
+
+                        Long totalSales = 0L;
+                        totalSales += itemFlow1.getTotalPrice();
+
+                        contentStream.showText("Total Sales made is: " + totalSales);
+                    }
+//                    contentStream.showText("Sales was made on : " + sales.getSalesDate());
+                    contentStream.newLine();
                     contentStream.newLineAtOffset(0, -leading);
                     contentStream.newLineAtOffset(0, -2 * leading);
                     ; // Add space between sales entries // Add space between sales entries
@@ -117,7 +136,7 @@ public class PDFServlet extends HttpServlet {
                     // Move to the next section
                     yPosition -= 4 * leading;
 
-                    contentStream.showText("Total tax: " + vatItem);
+//                    contentStream.showText("Total tax: " + vatItem);
                     contentStream.newLine();
 
                 }

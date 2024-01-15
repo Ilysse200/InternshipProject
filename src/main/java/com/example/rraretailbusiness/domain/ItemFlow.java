@@ -75,6 +75,14 @@ public class ItemFlow {
         this.itemList = itemList;
     }
 
+    public ItemFlow(LocalDate itemFlowDate, String status, Item itemList, int quantity, int unitPrice, int totalPrice) {
+        this.itemFlowDate = itemFlowDate;
+        this.status = status;
+        this.itemList = itemList;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+    }
     /*
          The following below are getters and setters, they help us modify the variables of a class.
          Every column or field of the class ItemFlow has got setters except the itemFlowId, so that
