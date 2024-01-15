@@ -20,73 +20,56 @@ public class ItemFlowServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
-
-        ItemDao itemDao = new ItemDao();
-        SalesDao salesDao = new SalesDao();
-        PurchaseDao purchaseDao = new PurchaseDao();
+        //Create itemFlowDao instance
         ItemFlowDao itemFlowDao = new ItemFlowDao();
 
+        //Get all itemFlows
+        List<ItemFlow> itemFlows =itemFlowDao.displayAllEmployees();
 
-        LocalDate flowDate = LocalDate.parse(req.getParameter("itemFlowDate"));
-
-        String flowDateParam = req.getParameter("itemFlowDate");
-        System.out.println("Received Date Parameter: " + flowDateParam);
-
-        LocalDate flowDates = LocalDate.parse(flowDateParam);
-        System.out.println("Parsed LocalDate: " + flowDate);
-        List<Purchase> purchasesItemFlow = purchaseDao.displayAllPurchases();
-        req.setAttribute("purchases", purchasesItemFlow);
-
-        List<Sales> itemFlowsalesID = salesDao.displayAllSales();
-        req.setAttribute("sales", itemFlowsalesID);
-
-        List<Item> itemList = itemDao.displayAllEmployees();
-        req.setAttribute("items", itemList);
-
-        // Retrieve the VAT value from the request
-        String vatValue = req.getParameter("vatValue");
+        //Create itemDao instance
+        ItemDao itemDao = new ItemDao();
 
 
-        Purchase purchaseItem = purchasesItemFlow.isEmpty() ? null : purchasesItemFlow.get(0);
-        Sales itemSales = itemFlowsalesID.isEmpty() ? null : itemFlowsalesID.get(0);
-        Item item = itemList.isEmpty() ? null : itemList.get(0);
+        // Get the item ID from the request parameter
+        Long itemId = Long.parseLong(req.getParameter("itemCode"));
 
-        // ...
+        //Variable to store the id of the item we want to calculate for
+        Long foundId = 0L;
 
-        // Assuming you want to handle either itemSales or purchaseItem, not both
-        ItemFlow itemFlow = new ItemFlow();
-        itemFlow.setItemFlowDate(flowDate);
+        // Call your DAO method to get the total sales
+        ItemFlowDao itemFlowDao1 = new ItemFlowDao();
+        long totalSales = 0L;
+        long totalPurchases = 0L;
+        Long Balance = 0L;
+
+        for (ItemFlow itemFlow : itemFlows) {
+            Item item1 = itemDao.findItemId(itemId);
+            // Add these print statements for debugging
+//            System.out.println("itemId: " + itemId);
+            System.out.println("item1.getItemCode(): " + item1.getItemCode());
+            System.out.println("itemFlow.getItemList().getItemCode(): " + itemFlow.getItemList().getItemCode());
+
+            // Add this line to compare the Long values directly
+            System.out.println("Comparison result: " + item1.getItemCode().equals(itemFlow.getItemList().getItemCode()));
+            if (itemId == itemFlow.getItemList().getItemCode() && itemFlow.getStatus().equals("IN")) {
+
+                totalPurchases += itemFlow.getTotalPrice();
+
+            }
+            else if(itemId == itemFlow.getItemList().getItemCode() && itemFlow.getStatus().equals("OUT")){
+                totalSales += itemFlow.getTotalPrice();
+            }
+            Balance = totalSales -totalPurchases;
+
+        }
+        // Now, you can use or display the 'totalSales' value as needed
+        System.out.println("Total Sales for Item ID " + itemId + ": " + totalSales);
+        System.out.println("Total Purchases for Item ID " + itemId + ": " + totalPurchases);
+        System.out.println("Balance for Item ID " + itemId + ": " + Balance);
 
 
-//        if (!itemFlowsalesID.isEmpty()) {
-//            // Handle the case where there is at least one itemSales
-//            itemFlow.setItemFlowsalesID(itemFlowsalesID.get(0));
-//            itemFlow.setPurchasesItemFlow(null);
-//            itemFlow.setItemList(item);
-//            itemFlowDao.saveItemFlow(itemFlow);
-//            return;
-//        } else if (!purchasesItemFlow.isEmpty()) {
-//            // Handle the case where there is at least one purchaseItem
-//            itemFlow.setItemFlowsalesID(null);
-//            itemFlow.setPurchasesItemFlow(purchasesItemFlow.get(0));
-//            itemFlow.setItemList(item);
-//            itemFlowDao.saveItemFlow(itemFlow);
-//            return;
-//        }
-//
-//        // Set the itemList (if needed)
-//        else if (!itemList.isEmpty()) {
-//            itemFlow.setItemList(itemList.get(0));
-//        }
-//        else {
-//            // Handle the case where both lists are empty or any other specific logic
-//            sendErrorMessage(resp, "No sales or purchases available");
-////            return;
-//        }
-
-        // Save the itemFlow
-        itemFlowDao.saveItemFlow(itemFlow);
-        sendSuccessMessage(resp, "itemFlow saved successfully");
+        // You may want to send the totalSales to the client or perform other actions...
+        resp.sendRedirect(req.getContextPath() + "/result.jsp");
     }
 
 

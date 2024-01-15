@@ -30,6 +30,7 @@
         <a class="btn btn-success btn-lg" href="item.jsp" role="button">Record Item</a>
         <a class="btn btn-primary btn-lg" href="Sales.jsp" role="button">Record Sales</a>
         <a class="btn btn-success btn-lg" href="PdfReport.jsp" role="button">Generate Reports</a>
+        <a class="btn btn-primary btn-lg" href="result.jsp" role="button">Calculate the balance</a>
 
 
     </div>

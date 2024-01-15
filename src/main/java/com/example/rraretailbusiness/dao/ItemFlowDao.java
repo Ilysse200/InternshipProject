@@ -30,6 +30,37 @@ public class ItemFlowDao {
         }
         return "ItemFlow saved successfully";
     }
+    // Method to calculate total sales for a specific item
+    public int getTotalSalesForItem(Long itemId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Query<Long> query = session.createQuery(
+                    "SELECT SUM(IF.totalPrice) FROM ItemFlow IF WHERE IF.itemList.itemCode = :itemId AND IF.status = 'OUT'",
+                    Long.class
+            );
+            query.setParameter("itemId", itemId);
+            Long totalSales = query.uniqueResult();
+            return totalSales != null ? totalSales.intValue() : 0;
+        } finally {
+            session.close();
+        }
+    }
+
+    // Method to calculate total purchases for a specific item
+    public int getTotalPurchasesForItem(Long itemId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            Query<Long> query = session.createQuery(
+                    "SELECT SUM(IF.totalPrice) FROM ItemFlow IF WHERE IF.itemList.itemCode = :itemId AND IF.status = 'IN'",
+                    Long.class
+            );
+            query.setParameter("itemId", itemId);
+            Long totalPurchases = query.uniqueResult();
+            return totalPurchases != null ? totalPurchases.intValue() : 0;
+        } finally {
+            session.close();
+        }
+    }
 
 
     //The method below will enable us to display all itemFlows records from its relative table

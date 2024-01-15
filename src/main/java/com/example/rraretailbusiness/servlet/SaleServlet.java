@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 @WebServlet("/registerSales")
 public class SaleServlet extends HttpServlet {
     @Override
@@ -157,6 +159,9 @@ public class SaleServlet extends HttpServlet {
                 dao.saveItemFlow(itemFlow);
                 System.out.println("Number of itemFlows: " + itemFlows.size());
             }
+
+
+
 
 
             resp.sendRedirect(req.getContextPath() + "/Home.jsp");
