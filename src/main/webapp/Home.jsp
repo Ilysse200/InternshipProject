@@ -31,7 +31,19 @@
         <a class="btn btn-primary btn-sm" href="Sales.jsp" role="button">Record Sales</a>
         <a class="btn btn-success btn-sm" href="PdfReport.jsp" role="button">Generate Reports</a>
         <a class="btn btn-success btn-sm" href="SalesReport.jsp" role="button">Sales Reports</a>
-        <a class="btn btn-primary btn-sm" href="result.jsp" role="button">Calculate the balance</a>
+        <a class="btn btn-primary btn-sm" href="result.jsp" role="button">Calculate the balance</a><br>
+
+<%--        <button type="submit" class="btn btn-primary col-md-12" value="<a hr></a>">Logout</button>--%>
+
+        <div class="container text-center my-5">
+            <div class="jumbotron">
+                <!-- Logout button with a different style and larger size -->
+                <a class="btn btn-outline-danger btn-sm btn-block mt-3" href="login.jsp" role="button">Logout</a>
+            </div>
+        </div>
+
+
+
 
 
     </div>

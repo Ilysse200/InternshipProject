@@ -94,7 +94,21 @@
                         </div>
                         <div class="mb-3">
                             <label for="suppliers" class="form-label">Suppliers</label>
-                            <input type="number" name="supplierId" class="form-control" id="suppliers" required>
+                            <select class="form-select" name="supplierId" id="suppliers" required>
+                                <%
+                                    // Fetch Suppliers from the database using the DAO
+                                    SupplierDao supplierDao = new SupplierDao();
+                                    List<Supplier> suppliers = supplierDao.displayAllSuppliers();
+
+                                    // Iterate over the items and generate <option> elements
+                                    for (Supplier supplier : suppliers) {
+                                %>
+                                <option value="<%= supplier.getSupplierId() %>"><%= supplier.getSupplierName()%></option>
+                                <%
+                                    }
+                                %>
+                            </select>
+<%--                            <input type="number" name="supplierId" class="form-control" id="suppliers" required>--%>
                         </div>
                         <table class="size">
                             <tr>

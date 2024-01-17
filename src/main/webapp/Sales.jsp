@@ -93,7 +93,21 @@
                         </div>
                         <div class="mb-3">
                             <label for="customers" class="form-label">Customers</label>
-                            <input type="number" name="customerId" class="form-control" id="customers" required>
+                            <select class="form-select" name="customerId" id="customers" required>
+                                <%
+                                    // Fetch customers from the database using the DAO
+                                    CustomerDao customerDao = new CustomerDao();
+                                    List<Customer> customers = customerDao.displayAllCustomers();
+
+                                    // Iterate over the items and generate <option> elements
+                                    for (Customer customer : customers) {
+                                %>
+                                <option value="<%= customer.getCustomerId() %>"><%= customer.getCustomerName()%></option>
+                                <%
+                                    }
+                                %>
+                            </select>
+<%--                            <input type="number" name="customerId" class="form-control" id="customers" required>--%>
                         </div>
                         <table class="size">
                             <tr>
