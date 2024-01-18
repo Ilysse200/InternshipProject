@@ -27,6 +27,24 @@ public class TestModel {
                 System.out.println("No pages in the report");
             }
             JasperViewer.viewReport(jasperPrint, false);
+
+            // Load and compile the second report
+            JasperDesign design2 = JRXmlLoader.load("src/main/resources/reports/Purchase.jrxml");
+            JasperReport jasperReport2 = JasperCompileManager.compileReport(design2);
+            JasperPrint jasperPrint2 = JasperFillManager.fillReport(jasperReport2, null, connection);
+            if (jasperPrint2.getPages().isEmpty()) {
+                System.out.println("No pages in the second report");
+            }
+            JasperViewer.viewReport(jasperPrint2, false);
+
+            // Load and compile the third report
+            JasperDesign design3 = JRXmlLoader.load("src/main/resources/reports/ItemRep.jrxml");
+            JasperReport jasperReport3 = JasperCompileManager.compileReport(design3);
+            JasperPrint jasperPrint3 = JasperFillManager.fillReport(jasperReport3, null, connection);
+            if (jasperPrint3.getPages().isEmpty()) {
+                System.out.println("No pages in the second report");
+            }
+            JasperViewer.viewReport(jasperPrint3, false);
         } catch (JRException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
