@@ -18,14 +18,18 @@
 <body class="bg-light">
 <div class="container mt-5">
     <div class="jumbotron">
-        <h5 class="display-4">Sales Report!</h5>
-        <p class="lead">Balance : </p>
+        <h5 class="display-4">Purchases Report!</h5>
+        <p class="lead">Report : </p>
         <hr class="my-4">
-        <form method="post" action="salesReport">
+        <form method="post" action="purchasesReport">
             <div class="mb-3">
-<%--                <label for="choice" class="form-label">Item Code</label>--%>
-<%--                <input type="number" name="itemCode" class="form-control" id="choice" required>--%>
-                <button type="submit">Balance</button>
+                <label for="choice1" class="form-label">Item Code</label>
+                <input type="date" name="startDate" class="form-control" id="choice1" required>
+
+                <label for="choice2" class="form-label">Item Code</label>
+                <input type="date" name="endDate" class="form-control" id="choice2" required>
+
+                <input type="submit" value="Generate PDF">
             </div>
         </form>
     </div>

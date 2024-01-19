@@ -15,7 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 @WebServlet("/pdfReport")
 public class PDFServlet extends HttpServlet {
@@ -47,12 +49,14 @@ public class PDFServlet extends HttpServlet {
             document.add(new Paragraph("\n")); // Add some space
 
             // Add a table with column headers
-            Table table = new Table(5); // 4 columns for "Description", "Quantity", "Price", "TotalPrice"
+            Table table = new Table(6); // 4 columns for "Description", "Quantity", "Price", "TotalPrice"
             table.addCell("Description").setBold().setTextAlignment(TextAlignment.CENTER);
             table.addCell("Quantity").setBold().setTextAlignment(TextAlignment.CENTER);
             table.addCell("Unit Price").setBold().setTextAlignment(TextAlignment.CENTER);
             table.addCell("Total Price").setBold().setTextAlignment(TextAlignment.CENTER);
             table.addCell("Transaction").setBold().setTextAlignment(TextAlignment.CENTER);
+            table.addCell("Dates").setBold().setTextAlignment(TextAlignment.CENTER);
+
             // Fetch data from the database
             ItemFlowDao itemFlowDao = new ItemFlowDao();
             List<ItemFlow> itemFlowList = itemFlowDao.displayAllEmployees();
@@ -64,6 +68,7 @@ public class PDFServlet extends HttpServlet {
                 int itemPrice = itemFlow.getUnitPrice();
                 int totalPrice = itemFlow.getTotalPrice();
                 String status = itemFlow.getStatus();
+                LocalDate date = itemFlow.getItemFlowDate();
 
                 // Add the data to the table
                 table.addCell(itemName);
@@ -71,6 +76,7 @@ public class PDFServlet extends HttpServlet {
                 table.addCell(String.valueOf(itemPrice));
                 table.addCell(String.valueOf(totalPrice));
                 table.addCell(String.valueOf(status));
+                table.addCell(String.valueOf(date));
                 if (itemFlow.getStatus().equals("IN")) {
 
                     totalPurchases += itemFlow.getQuantity();
@@ -88,6 +94,7 @@ public class PDFServlet extends HttpServlet {
             table.addCell(""); // An empty cell for unit price column
             table.addCell(""); //An empty cell for total price column
             table.addCell(""); //An empty cell for transaction column
+            table.addCell(""); //An empty cell for date column
 
 
             table.addCell("Total quantity purchased").setBold().setTextAlignment(TextAlignment.CENTER);
@@ -95,6 +102,7 @@ public class PDFServlet extends HttpServlet {
             table.addCell(""); // An empty cell for unit price column
             table.addCell(""); //An empty cell for total price column
             table.addCell(""); //An empty cell for transaction column
+            table.addCell(""); //An empty cell for date column
 
 
             table.addCell("Quantity left").setBold().setTextAlignment(TextAlignment.CENTER);
@@ -102,6 +110,7 @@ public class PDFServlet extends HttpServlet {
             table.addCell(""); // An empty cell for unit price column
             table.addCell(""); //An empty cell for total price column
             table.addCell(""); //An empty cell for transaction column
+            table.addCell(""); //An empty cell for date column
 
 
 
