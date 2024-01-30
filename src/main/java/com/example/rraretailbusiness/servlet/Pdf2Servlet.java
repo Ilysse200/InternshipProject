@@ -60,11 +60,12 @@ public class Pdf2Servlet extends HttpServlet {
                  Document document = new Document(pdfDocument)) {
 
                 // Add content to the PDF document
-                document.add(new Paragraph("Sales Report").setBold().setFontSize(16f));
+                document.add(new Paragraph("Purchase Report").setBold().setFontSize(16f));
                 document.add(new Paragraph("\n")); // Add some space
 
                 // Add a table with column headers
-                Table table = new Table(4); // 4 columns for "Description", "Quantity", "Price", "TotalPrice"
+                Table table = new Table(5); // 4 columns for "Description", "Quantity", "Price", "TotalPrice"
+                table.addCell("Date").setBold().setTextAlignment(TextAlignment.CENTER);
                 table.addCell("Description").setBold().setTextAlignment(TextAlignment.CENTER);
                 table.addCell("Quantity").setBold().setTextAlignment(TextAlignment.CENTER);
                 table.addCell("Unit Price").setBold().setTextAlignment(TextAlignment.CENTER);
@@ -76,35 +77,38 @@ public class Pdf2Servlet extends HttpServlet {
 
                 // Iterate through the data and add it to the table
                 for (ItemFlow itemFlow : itemFlowList) {
-                    if (isDateInRange(itemFlow.getItemFlowDate(), startDate, endDate)) {
+                    if (isDateInRange(itemFlow.getItemFlowDate(), startDate, endDate) && itemFlow.getStatus().equals("IN")) {
 
                         int itemQuantity = itemFlow.getQuantity();
                         String itemName = itemFlow.getItemList().getItemName();
                         int itemPrice = itemFlow.getUnitPrice();
                         int totalPrice = itemFlow.getTotalPrice();
+                        LocalDate datePurchased = itemFlow.getItemFlowDate();
+
+                        totalPurchases +=itemFlow.getQuantity();
+                        quantitiesPurchased +=itemFlow.getTotalPrice();
+
 
                         // Add the data to the table
+                        table.addCell(String.valueOf(datePurchased));
                         table.addCell(itemName);
                         table.addCell(String.valueOf(itemQuantity));
                         table.addCell(String.valueOf(itemPrice));
                         table.addCell(String.valueOf(totalPrice));
-                        if (itemFlow.getStatus().equals("IN")) {
 
-                            totalPurchases += itemFlow.getQuantity();
-                            quantitiesPurchased += itemFlow.getTotalPrice();
-
-                        }
                     }
 
                 }
                 // Step 8: Add a separate row for total sales, total purchases, and balance
 
+                table.addCell(""); //An empty cell for total price column
                 table.addCell("Total quantity purchased").setBold().setTextAlignment(TextAlignment.CENTER);
                 table.addCell(String.valueOf(totalPurchases)).setTextAlignment(TextAlignment.CENTER);
                 table.addCell(""); // An empty cell for unit price column
                 table.addCell(""); //An empty cell for total price column
 
 
+                table.addCell(""); //An empty cell for total price column
                 table.addCell("Total purchases").setBold().setTextAlignment(TextAlignment.CENTER);
                 table.addCell(""); // An empty cell for quantity price column
                 table.addCell(""); // An empty cell for unit price column
